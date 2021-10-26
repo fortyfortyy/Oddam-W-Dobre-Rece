@@ -29,8 +29,9 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
-
+AUTH_USER_MODEL = 'users.Profile'
+SITE_ID = 1
+PASSWORD_RESET_TIMEOUT = 86400  # reset token after 24 hours
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 
     'mainapp.apps.MainappConfig',
     'users.apps.UsersConfig',
+    'django.contrib.sites'
 ]
 
 MIDDLEWARE = [
@@ -84,10 +86,10 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
-        'NAME': 'tripplanapp',
+        'NAME': 'oddamwdobrerece',
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': 'postgresuser',
+        'PASSWORD': 'postgresuser',
     }
 }
 
@@ -125,12 +127,12 @@ USE_TZ = True
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'tripmanagementapp@gmail.com'
-# EMAIL_HOST_PASSWORD = 'aaaaaaaaaaaaaaaaaa'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
+EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
