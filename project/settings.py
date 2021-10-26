@@ -63,7 +63,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'templates'),
+            BASE_DIR / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -139,11 +139,11 @@ EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'media',
+    BASE_DIR / 'static/images',
 ]
 
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+MEDIA_URL = '/images/'
 
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
