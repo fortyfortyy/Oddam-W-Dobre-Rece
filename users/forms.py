@@ -15,10 +15,10 @@ class CustomUserCreationForm(UserCreationForm):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
 
         self.fields['first_name'].widget.attrs.update(
-            {'type': 'text', 'name': 'name', 'class': 'form-control', 'placeholder': 'First Name'})
+            {'type': 'text', 'name': 'first_name', 'class': 'form-control', 'placeholder': 'First Name'})
 
         self.fields['last_name'].widget.attrs.update(
-            {'type': 'text', 'name': 'surname', 'class': 'form-control', 'placeholder': 'Last Name'})
+            {'type': 'text', 'name': 'last_name', 'class': 'form-control', 'placeholder': 'Last Name'})
 
         self.fields['email'].widget.attrs.update(
             {'type': 'email', 'name': 'email', 'class': 'form-control', 'placeholder': 'Email'})

@@ -31,6 +31,7 @@ class RegisterView(View):
             profile = form.save(commit=False)
             profile.site = Site.objects.get(pk=settings.SITE_ID)
             profile.save()
+            login(request, profile)
             messages.success(request, 'Account has been created!')
             return render(request, self.template_class, self.context)
 
@@ -53,7 +54,7 @@ class LoginView(View):
             messages.error(request, "Sorry you're already logged-in!")
             return redirect('main-page')
 
-        self.context['form'] = self.form_class
+        self.context['login_form'] = self.form_class
         return render(request, self.template_class, self.context)
 
     def post(self, request, *args, **kwargs):
@@ -65,7 +66,7 @@ class LoginView(View):
             if user is not None:
                 login(request, user)
                 return redirect('main-page')
-        self.context['form'] = form
+        self.context['login_form'] = form
         messages.error(request, "There was an error. Please try with the correct username or password.")
         return render(request, self.template_class, self.context)
 
@@ -75,7 +76,7 @@ class LogoutView(LoginRequiredMixin, View):
     Logs out the user and displays 'You are logged out' message.
     Then redirects to the log-in page.
     """
-    login_url = 'login/'
+    login_url = '/account/login/'
 
     def get(self, request, *args, **kwargs):
         logout(request)
