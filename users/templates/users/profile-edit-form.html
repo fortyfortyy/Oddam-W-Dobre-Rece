@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+    <header>
+        <nav class="container container--70">
+         {% include 'navbar.html' %}
+        </nav>
+    </header>
+     <section class="about-us">
+        <div class="about-us--text">
+            <form method="post">
+                {% csrf_token %}
+                <label for="id_first_name">
+                    <input id="id_first_name" type="text" name="first_name" maxlength="150" value="{{ profile_form.first_name.value }}">
+                </label>
+                <label for="id_last_name">
+                    <input id="id_last_name" type="text" name="last_name" maxlength="150" value="{{ profile_form.last_name.value }}">
+                </label>
+                <label for="id_email">
+                    <input id="id_email" type="email" name="email" maxlength="255" value="{{ profile_form.email.value }}">
+                </label>
+                <label for="id_password">
+                    <input id="id_password" type="password" name="password" placeholder="Podaj swoje hasło do zatwierdzenia danych">
+                </label>
+                <input type="submit" value="Zaaktualizuj">
+            </form>
+        </div>
+     </section>
+{% endblock %}

@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
-
 from users.models import Profile
 
 
@@ -59,5 +58,34 @@ class LoginForm(forms.Form):
         email = self.cleaned_data['email'].lower()
         if len(email) > 255:
             raise ValidationError(_('Email is too long. Max 255 characters. Please try again.'), code='long_email')
+        else:
+            return email
+
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('first_name', 'last_name', 'email')
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name').lower()
+        if len(first_name) > 150:
+            raise ValidationError(_('Imię jest za długie. Maksymalnie możesz użyć do 150 znaków.'),
+                                  code='long_first_name')
+        else:
+            return first_name[0].upper() + first_name[1:]
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name').lower()
+        if len(last_name) > 150:
+            raise ValidationError(_('Nazwisko jest za długie. Maksymalnie możesz użyć do 150 znaków.'),
+                                  code='long_last_name')
+        else:
+            return last_name[0].upper() + last_name[1:]
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email').lower()
+        if len(email) > 255:
+            raise ValidationError(_('Email jest za długi. Maksymalnie możesz użyć do 255 znaków.'), code='long_email')
         else:
             return email

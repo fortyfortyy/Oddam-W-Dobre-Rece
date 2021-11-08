@@ -4,9 +4,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.models import Site
 from django.shortcuts import redirect, render
 from django.views import View
-
+from mainapp.models import Donation
+from users.models import Profile
 from project import settings
-from users.forms import CustomUserCreationForm, LoginForm
+from users.forms import CustomUserCreationForm, LoginForm, ProfileEditForm
+
+
 # from django.contrib.auth.views import LogoutView
 
 
@@ -33,7 +36,7 @@ class RegisterView(View):
             profile.save()
             login(request, profile)
             messages.success(request, 'Account has been created!')
-            return render(request, self.template_class, self.context)
+            return redirect('main-page')
 
         messages.error(request, 'Something gone wrong. Please try again.')
         self.context['registration_form'] = form
@@ -82,3 +85,66 @@ class LogoutView(LoginRequiredMixin, View):
         logout(request)
         messages.info(request, 'You are logged out!')
         return redirect('main-page')
+
+
+class ProfileView(LoginRequiredMixin, View):
+    login_url = '/account/login/'
+    template_class = 'users/profile.html'
+    context = {}
+
+    def get(self, request, *args, **kwargs):
+        donations = Donation.objects.filter(user=request.user.pk)
+        profile = Profile.objects.get(pk=request.user.pk)
+        self.context['donations'] = donations
+        self.context['profile'] = profile
+        self.context['foooter_disabled'] = True
+        return render(request, self.template_class, self.context)
+
+    def post(self, request, *args, **kwargs):
+        donation_pk = request.POST.get('donation_pk')
+        try:
+            donation_obj = Donation.objects.get(pk=donation_pk)
+        except Donation.DoesNotExist:
+            return redirect('profile', kwargs['pk'])
+
+        donation_taken = request.POST.get('donation_taken')
+        donation_not_taken = request.POST.get('donation_not_taken')
+        if donation_taken == 'Zabrane':
+            donation_obj.is_taken = True
+            donation_obj.save()
+        if donation_not_taken == 'Niezabrane':
+            donation_obj.is_taken = False
+            donation_obj.save()
+        return redirect('profile', kwargs['pk'])
+
+
+class ProfileEditView(LoginRequiredMixin, View):
+    login_url = '/account/login/'
+    template_class = 'users/profile-edit-form.html'
+    form_class = ProfileEditForm
+    context = {}
+
+    def get(self, request, *args, **kwargs):
+        user_pk = kwargs['pk']
+        try:
+            profile = Profile.objects.get(pk=user_pk)
+        except Profile.DoesNotExist:
+            return redirect('main-page')
+        self.context['profile_form'] = ProfileEditForm(instance=profile)
+        self.context['foooter_disabled'] = True
+        return render(request, self.template_class, self.context)
+
+    def post(self, request, *args, **kwargs):
+        profile = Profile.objects.get(pk=kwargs['pk'])
+        form = self.form_class(request.POST, instance=Profile.objects.get(pk=kwargs['pk']))
+        if form.is_valid():
+            password = form.data['password']
+            if profile.check_password(password):
+                form.save()
+                return redirect('profile-edit', profile.pk)
+
+            messages.error(request, "Hasło niepoprawne spróbuj ponownie")
+        messages.error(request, "Niepoprawne dane wprowadzone. Proszę spróbuj ponownie")
+        self.context['profile_form'] = form
+        self.context['foooter_disabled'] = True
+        return render(request, self.template_class, self.context)

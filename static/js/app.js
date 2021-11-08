@@ -246,6 +246,7 @@ document.addEventListener("DOMContentLoaded", function() {
       e.preventDefault();
       this.currentStep++;
       this.updateForm();
+      e.currentTarget.submit()
     }
   }
   const form = document.querySelector(".form--steps");

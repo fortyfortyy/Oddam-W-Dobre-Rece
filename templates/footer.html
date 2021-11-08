@@ -1,15 +1,14 @@
 {% load static %}
+{% if not foooter_disabled %}
 <footer>
     <div id="contact" class="contact">
         <h2>Skontaktuj się z nami</h2>
         <h3>Formularz kontaktowy</h3>
         <form method="post" action="{% url 'main-page' %}" class="form--contact">
             {% csrf_token %}
-            <div class="form-group form-group--50"><input type="text" name="name" placeholder="Imię"/></div>
-            <div class="form-group form-group--50"><input type="text" name="surname" placeholder="Nazwisko"/></div>
-
-            <div class="form-group"><textarea name="message" placeholder="Wiadomość" rows="1"></textarea></div>
-
+            <div class="form-group form-group--50">{{ footer_form.name }}</div>
+            <div class="form-group form-group--50">{{ footer_form.surname }}</div>
+            <div class="form-group">{{ footer_form.message }}</div>
             <button class="btn" type="submit">Wyślij</button>
         </form>
     </div>
@@ -21,3 +20,4 @@
         </div>
     </div>
 </footer>
+{% endif %}

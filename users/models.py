@@ -1,6 +1,6 @@
 import datetime
 
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 from django.core.mail import send_mail
 from django.contrib.sites.models import Site
 from django.core.validators import validate_email
@@ -17,7 +17,7 @@ class MyAccountManager(BaseUserManager):
     """
     def create_user(self, email, first_name, last_name, site=None, password=None):
         """
-        Create and save a User with the given email and password and username.
+        Create and save a User with the given email, first name, last name and password.
         """
         if not email:
             raise ValueError("User must have an email address.")
@@ -39,7 +39,6 @@ class MyAccountManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, first_name, last_name, password):
-
         if password is None:
             raise TypeError('Superusers must have a password.')
         user = self.create_user(

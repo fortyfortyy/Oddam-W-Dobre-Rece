@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <header>
+        <nav class="container container--70">
+         {% include 'navbar.html' %}
+        </nav>
+    </header>
+
+    <section class="about-us">
+        <div class="about-us--text">
+            <h1>Imię: {{ profile.first_name|title }}</h1>
+            <h1>Nazwisko: {{ profile.last_name|title }}</h1>
+            <h1>Email: {{ profile.email|lower }}</h1>
+            {% if donations.count > 0 %}
+                <p>Lista przekazanych darów:</p>
+                <ul>
+                    {% for donation in donations %}
+                        {% if not donation.is_taken %}
+                        <li>
+                            <div class="about-us--text">
+                                 Worki: {{ donation.quantity }}
+                                 Organizacja: {{ donation.institution }}
+                                 Kategorie: {% for category in donation.categories.all %}{{ category }},{% endfor %}
+                                 Będą zabrane: {{ donation.pick_up_date }} o {{ donation.pick_up_time }}
+                                 <form method="post" action="">
+                                    {% csrf_token %}
+                                     <input type="hidden" name="donation_pk" value="{{ donation.pk }}">
+                                     <input style="color: green" name="donation_taken" class="btn" type="submit" value="Zabrane">
+                                 </form>
+                            </div>
+                        </li><br>
+                        {% else %}
+                            <div class="about-us--text">
+                                <li style="text-decoration: line-through">
+                                    Worki: {{ donation.quantity }}
+                                    Organizacja: {{ donation.institution }}
+                                    Kategorie: {% for category in donation.categories.all %}{{ category }},{% endfor %}
+                                    Będą zabrane: {{ donation.pick_up_date }} o {{ donation.pick_up_time }}
+                                    Zostały zabrane: {{ donation.pick_up_date }} o {{ donation.pick_up_time }}
+                                </li>
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="donation_pk" value="{{ donation.pk }}">
+                                    <input style="color: darkred" name="donation_not_taken" class="btn" type="submit" value="Niezabrane">
+                                </form>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <h3>Nie posiadasz jeszcze żadnych dotacji</h3>
+            {% endif %}
+        </div>
+    </section>
+
+{% endblock %}
