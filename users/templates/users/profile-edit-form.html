@@ -10,18 +10,42 @@
             <form method="post">
                 {% csrf_token %}
                 <label for="id_first_name">
-                    <input id="id_first_name" type="text" name="first_name" maxlength="150" value="{{ profile_form.first_name.value }}">
+                    <input id="id_first_name" placeholder="Imię" type="text" name="first_name" maxlength="150" value="{{ form_edit_profile.first_name.value }}">
                 </label>
                 <label for="id_last_name">
-                    <input id="id_last_name" type="text" name="last_name" maxlength="150" value="{{ profile_form.last_name.value }}">
+                    <input id="id_last_name" placeholder="Nazwisko" type="text" name="last_name" maxlength="150" value="{{ form_edit_profile.last_name.value }}">
                 </label>
                 <label for="id_email">
-                    <input id="id_email" type="email" name="email" maxlength="255" value="{{ profile_form.email.value }}">
+                    <input id="id_email" placeholder="Email" type="email" name="email" maxlength="255" value="{{ form_edit_profile.email.value }}">
                 </label>
                 <label for="id_password">
                     <input id="id_password" type="password" name="password" placeholder="Podaj swoje hasło do zatwierdzenia danych">
                 </label>
                 <input type="submit" value="Zaaktualizuj">
+
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+            </form>
+        </div>
+        <div class="about-us--text">
+            <form method="post">
+                {% csrf_token %}
+                <h1 class="h3">Zmień hasło</h1>
+                <label for="id_old_password"></label>
+                <input type="password" name="old_password" placeholder="Stare hasło" required id="id_old_password" >
+
+                <label for="id_new_password1"></label>
+                <input type="password" name="new_password1" placeholder="Nowe hasło" required id="id_new_password1">
+
+                <label for="id_new_password2"></label>
+                <input type="password" name="new_password2"  placeholder="Potwierdź hasło" required id="id_new_password2">
+
+                {% for error in field.errors %}
+                    <p style="color: red">{{ error }}</p>
+                {% endfor %}
+
+                <button class="btn" type="submit">Zmień hasło</button>
             </form>
         </div>
      </section>

@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.models import Site
 from django.shortcuts import redirect, render
@@ -121,7 +122,8 @@ class ProfileView(LoginRequiredMixin, View):
 class ProfileEditView(LoginRequiredMixin, View):
     login_url = '/account/login/'
     template_class = 'users/profile-edit-form.html'
-    form_class = ProfileEditForm
+    form_edit_profile = ProfileEditForm
+    form_reset_password = PasswordChangeForm
     context = {}
 
     def get(self, request, *args, **kwargs):
@@ -130,21 +132,26 @@ class ProfileEditView(LoginRequiredMixin, View):
             profile = Profile.objects.get(pk=user_pk)
         except Profile.DoesNotExist:
             return redirect('main-page')
-        self.context['profile_form'] = ProfileEditForm(instance=profile)
+        self.context['form_edit_profile'] = self.form_edit_profile(instance=profile)
+        self.context['form_reset_password'] = self.form_reset_password(user=profile)
         self.context['foooter_disabled'] = True
         return render(request, self.template_class, self.context)
 
     def post(self, request, *args, **kwargs):
         profile = Profile.objects.get(pk=kwargs['pk'])
-        form = self.form_class(request.POST, instance=Profile.objects.get(pk=kwargs['pk']))
-        if form.is_valid():
-            password = form.data['password']
+        form_edit_profile = self.form_edit_profile(request.POST, instance=profile)
+        form_reset_password = self.form_reset_password(data=request.POST, user=request.user)
+        if form_edit_profile.is_valid():
+            password = form_edit_profile.data['password']
             if profile.check_password(password):
-                form.save()
+                form_edit_profile.save()
                 return redirect('profile-edit', profile.pk)
+        if form_reset_password.is_valid():
+            form_reset_password.save()
+            update_session_auth_hash(request, form_reset_password.user)
+            return redirect('profile-edit', profile.pk)
 
-            messages.error(request, "Hasło niepoprawne spróbuj ponownie")
-        messages.error(request, "Niepoprawne dane wprowadzone. Proszę spróbuj ponownie")
-        self.context['profile_form'] = form
+        messages.error(request, "Hasło niepoprawne spróbuj ponownie")
+        self.context['form_edit_profile'] = form_edit_profile
         self.context['foooter_disabled'] = True
         return render(request, self.template_class, self.context)
