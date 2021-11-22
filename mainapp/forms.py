@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
 from django.utils.translation import ugettext_lazy as _
 
-from mainapp.models import Donation
+from mainapp.models import Donation, Institution, Category
 
 
 class FooterForm(forms.Form):
@@ -46,23 +46,23 @@ class FooterForm(forms.Form):
 class DonationForm(forms.ModelForm):
     class Meta:
         model = Donation
-        fields = ('quantity', 'address', 'phone_number', 'city',
+        fields = ('quantity', 'address', 'phone_number', 'city', 'institution', 'categories',
                   'post_code', 'pick_up_date', 'pick_up_time', 'pick_up_comment')
 
     def __init__(self, *args, **kwargs):
         super(DonationForm, self).__init__(*args, **kwargs)
 
-        # Phone number validator
-        PHONE_REGEX = RegexValidator(r'^(\+\d{1,2})?\d{9}$', "Numer telefonu musi mieć format +XXXXXXXXXXX")
-        phone_validators = [PHONE_REGEX],
-        phone_number = self.fields['phone_number']
-        phone_number.validators.append(phone_validators)
-
-        # Post Code validator
-        POST_CODE_REGEX = RegexValidator(r'^\d{2}\-?\d{3}$', "Kod pocztowy musi mieć format: XX-XXX.")
-        post_code_validators = [POST_CODE_REGEX]
-        post_code = self.fields['post_code']
-        post_code.validators.append(post_code_validators)
+        # # Phone number validator
+        # PHONE_REGEX = RegexValidator(r'^(\+\d{1,2})?\d{9}$', "Numer telefonu musi mieć format +XXXXXXXXXXX")
+        # phone_validators = [PHONE_REGEX],
+        # phone_number = self.fields['phone_number']
+        # phone_number.validators.append(phone_validators)
+        #
+        # # Post Code validator
+        # POST_CODE_REGEX = RegexValidator(r'^\d{2}\-?\d{3}$', "Kod pocztowy musi mieć format: XX-XXX.")
+        # post_code_validators = [POST_CODE_REGEX]
+        # post_code = self.fields['post_code']
+        # post_code.validators.append(post_code_validators)
 
     def clean_quantity(self):
         quantity = self.cleaned_data['quantity']
@@ -86,7 +86,7 @@ class DonationForm(forms.ModelForm):
         city = self.cleaned_data['city']
         if len(city) > 100:
             raise ValidationError(_("Proszę podać poprawne miasto"))
-        return city
+        return city[0].upper() + city[1:].lower()
 
     def clean_post_code(self):
         post_code = self.cleaned_data['post_code']
@@ -95,13 +95,32 @@ class DonationForm(forms.ModelForm):
         return post_code
 
     def clean_pick_up_date(self):
-        pass
+        pick_up_date = self.cleaned_data['pick_up_date']
+        return pick_up_date
 
     def clean_pick_up_time(self):
-        pass
+        pick_up_time = self.cleaned_data['pick_up_time']
+        return pick_up_time
 
     def clean_pick_up_comment(self):
         comment = self.cleaned_data['pick_up_comment']
         if len(comment) > 500:
             raise ValidationError(_("Maksymalnie możesz wpisać 500 znaków w uwagach dla kuriera"))
+        return comment
 
+    def clean_institution(self):
+        institution = self.cleaned_data['institution']
+        try:
+            institution = Institution.objects.get(pk=institution.pk)
+        except Institution.DoesNotExist:
+            raise ValidationError(_("Proszę wybrać poprawną instytucje"))
+        return institution
+
+    def clean_categories(self):
+        categories = self.cleaned_data['categories']
+        for category in categories:
+            try:
+                category = Category.objects.get(pk=category.pk)
+            except Category.DoesNotExist:
+                raise ValidationError(_("Proszę wybrać poprawną kategorie"))
+        return categories

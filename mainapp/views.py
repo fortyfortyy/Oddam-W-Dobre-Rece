@@ -4,7 +4,6 @@ from django.views import View
 from mainapp.models import Institution, Donation, Category
 from mainapp.forms import FooterForm, DonationForm
 from django.contrib import messages
-from users.models import Profile
 
 
 class LandingPageView(View):
@@ -16,11 +15,16 @@ class LandingPageView(View):
         institutions = Institution.objects.all()
         donations = Donation.objects.all()
         donations_quantity = 0
+        institutions_quantity = []
         for donation in donations:
             donations_quantity += donation.quantity
+            institution = donation.institution
+            if institution not in institutions_quantity:
+                institutions_quantity.append(institution)
 
-        self.context['institutions'] = institutions
+        self.context['institutions_quantity'] = len(institutions_quantity)
         self.context['donations_quantity'] = donations_quantity
+        self.context['institutions'] = institutions
         self.context['footer_form'] = FooterForm
         return render(request, self.template_class, self.context)
 
@@ -38,7 +42,6 @@ class LandingPageView(View):
 
 
 class AddDonationView(LoginRequiredMixin, View):
-    footer_form = FooterForm
     login_url = '/account/login/'
     donation_form = DonationForm
     template_form_class = 'mainapp/form.html'
@@ -50,42 +53,20 @@ class AddDonationView(LoginRequiredMixin, View):
         categories = Category.objects.all()
         self.context['institutions'] = institutions
         self.context['categories'] = categories
-        self.context['footer_form'] = FooterForm
         self.context['donation_form'] = DonationForm
         return render(request, self.template_form_class, self.context)
 
     def post(self, request, *args, **kwargs):
         form = self.donation_form(request.POST)
-        breakpoint()
         if form.is_valid():
-            breakpoint()
-
-            # Institution check
-            institution = request.POST.get('organization')
-            try:
-                institution = Institution.objects.get(pk=institution.pk)
-            except Institution.DoesNotExist:
-                messages.error(request, "Formularz jest niepoprawny, proszę spóbowac ponownie")
-                return redirect('add-donation')
-
-            # Category check
-            categories = request.POST.getlist('categories')
-            for category in categories:
-                try:
-                    category = Category.objects.get(pk=category.pk)
-                except Category.DoesNotExist:
-                    messages.error(request, "Formularz jest niepoprawny, proszę spóbowac ponownie")
-                    return redirect('add-donation')
-
+            institution = form.cleaned_data.get('institution')
+            categories = form.cleaned_data.get('categories')
             donation = form.save(commit=False)
             donation.user = request.user
             donation.institution = institution
+            donation.save()
             for category in categories:
                 donation.categories.add(category)
-            donation.save()
-            return render(request, self.template_confirmation_form_class)
-
-        # TODO pokazanie błędów w formularzu
-        return redirect('add-donation')
+        return redirect('main-page')
 
 

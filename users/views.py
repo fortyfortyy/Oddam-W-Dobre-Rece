@@ -11,9 +11,6 @@ from project import settings
 from users.forms import CustomUserCreationForm, LoginForm, ProfileEditForm
 
 
-# from django.contrib.auth.views import LogoutView
-
-
 class RegisterView(View):
     """
     Create the user account and also log in.
@@ -98,7 +95,7 @@ class ProfileView(LoginRequiredMixin, View):
         profile = Profile.objects.get(pk=request.user.pk)
         self.context['donations'] = donations
         self.context['profile'] = profile
-        self.context['foooter_disabled'] = True
+        self.context['footer_disabled'] = True
         return render(request, self.template_class, self.context)
 
     def post(self, request, *args, **kwargs):
@@ -134,7 +131,7 @@ class ProfileEditView(LoginRequiredMixin, View):
             return redirect('main-page')
         self.context['form_edit_profile'] = self.form_edit_profile(instance=profile)
         self.context['form_reset_password'] = self.form_reset_password(user=profile)
-        self.context['foooter_disabled'] = True
+        self.context['footer_disabled'] = True
         return render(request, self.template_class, self.context)
 
     def post(self, request, *args, **kwargs):

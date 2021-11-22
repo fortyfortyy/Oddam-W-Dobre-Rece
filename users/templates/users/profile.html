@@ -11,7 +11,7 @@
         <div class="about-us--text">
             <h1>Imię: {{ profile.first_name|title }}</h1>
             <h1>Nazwisko: {{ profile.last_name|title }}</h1>
-            <h1>Email: {{ profile.email|lower }}</h1>
+            <h1>Email: {{ profile.email }}</h1>
             {% if donations.count > 0 %}
                 <p>Lista przekazanych darów:</p>
                 <ul>
