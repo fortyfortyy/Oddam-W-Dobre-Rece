@@ -10,22 +10,26 @@
             <form method="post">
                 {% csrf_token %}
                 <label for="id_first_name">
-                    <input id="id_first_name" placeholder="Imię" type="text" name="first_name" maxlength="150" value="{{ form_edit_profile.first_name.value }}">
+                    <input id="id_first_name" placeholder="Imię" type="text" name="first_name" maxlength="150" value="{{ form_edit_profile.first_name.value|default_if_none:'' }}">
                 </label>
                 <label for="id_last_name">
-                    <input id="id_last_name" placeholder="Nazwisko" type="text" name="last_name" maxlength="150" value="{{ form_edit_profile.last_name.value }}">
+                    <input id="id_last_name" placeholder="Nazwisko" type="text" name="last_name" maxlength="150" value="{{ form_edit_profile.last_name.value|default_if_none:'' }}">
                 </label>
                 <label for="id_email">
-                    <input id="id_email" placeholder="Email" type="email" name="email" maxlength="255" value="{{ form_edit_profile.email.value }}">
+                    <input id="id_email" placeholder="Email" type="email" name="email" maxlength="255" value="{{ form_edit_profile.email.value|default_if_none:'' }}">
                 </label>
                 <label for="id_password">
                     <input id="id_password" type="password" name="password" placeholder="Podaj swoje hasło do zatwierdzenia danych">
                 </label>
                 <input type="submit" value="Zaaktualizuj">
 
-                {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
+                {% for field in form_edit_profile %}
+                    {% for error in field.errors %}
+                        <strong class="message-error">{{ error|escape }}</strong>
+                    {% endfor %}
                 {% endfor %}
+
+                {% include 'errors.html' %}
             </form>
         </div>
         <div class="about-us--text">
@@ -40,12 +44,14 @@
 
                 <label for="id_new_password2"></label>
                 <input type="password" name="new_password2"  placeholder="Potwierdź hasło" required id="id_new_password2">
-
-                {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
+                <button class="btn" type="submit">Zmień hasło</button>
+                {% for field in form_reset_password %}
+                    {% for error in field.errors %}
+                        <strong class="message-error">{{ error|escape }}</strong>
+                    {% endfor %}
                 {% endfor %}
 
-                <button class="btn" type="submit">Zmień hasło</button>
+                {% include 'errors.html' %}
             </form>
         </div>
      </section>

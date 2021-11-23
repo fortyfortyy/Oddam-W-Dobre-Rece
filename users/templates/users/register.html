@@ -11,29 +11,32 @@
 
     <section class="login-page">
         <h2>Załóż konto</h2>
+
+        {% include 'errors.html' %}
+
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                <input type="text" name="first_name" placeholder="Imię"/>
+                <input type="text" name="first_name" placeholder="Imię" maxlength="150" value="{{ registration_form.first_name.value|default_if_none:'' }}"/>
             </div>
             <div class="form-group">
-                <input type="text" name="last_name" placeholder="Nazwisko"/>
+                <input type="text" name="last_name" placeholder="Nazwisko" maxlength="150" value="{{ registration_form.last_name.value|default_if_none:'' }}"/>
             </div>
             <div class="form-group">
-                <input type="email" name="email" placeholder="Email"/>
+                <input type="email" name="email" placeholder="Email" maxlength="255" value="{{ registration_form.email.value|default_if_none:'' }}"/>
             </div>
             <div class="form-group">
-                <input type="password" name="password1" placeholder="Hasło"/>
+                <input type="password" name="password1" placeholder="Hasło" maxlength="128" value="{{ registration_form.password1.value|default_if_none:'' }}"/>
             </div>
             <div class="form-group">
-                <input type="password" name="password2" placeholder="Powtórz hasło"/>
+                <input type="password" name="password2" placeholder="Powtórz hasło" maxlength="128" value="{{ registration_form.password2.value|default_if_none:'' }}"/>
             </div>
 
-            {% if registration_form.non_field_errors %}
-                <div style="color: red">
-                    <p>{{ registration_form.non_field_errors }}</p>
-                </div>
-            {% endif %}
+            {% for field in registration_form %}
+                {% for error in field.errors %}
+                    <strong class="message-error">{{ error|escape }}</strong>
+                {% endfor %}
+            {% endfor %}
 
             <div class="form-group form-group--buttons">
                 <a href="{% url 'login' %}" class="btn btn--without-border">Zaloguj się</a>

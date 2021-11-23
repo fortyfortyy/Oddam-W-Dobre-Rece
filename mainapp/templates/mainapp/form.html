@@ -118,7 +118,7 @@
                                 <input type="radio" name="institution" value="{{ institution.pk }}"/>
                                 <span class="checkbox radio"></span>
                                 <span class="description">
-                                    <div class="title">{{ institution.name }}</div>
+                                    <div class="title">{{ institution.name|title }}</div>
                                     <div class="subtitle">
                                         Cel i misja: {{ institution.description }}
                                     </div>

@@ -5,9 +5,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.models import Site
 from django.shortcuts import redirect, render
 from django.views import View
+
 from mainapp.models import Donation
-from users.models import Profile
 from project import settings
+from users.models import Profile
 from users.forms import CustomUserCreationForm, LoginForm, ProfileEditForm
 
 
@@ -21,22 +22,23 @@ class RegisterView(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            messages.error(request, f'You are already authenticated as {request.user}')
+            messages.error(request, f'Jesteś zalogowany jako {request.user}')
             return redirect('main-page')
         self.context['registration_form'] = self.form_class
         return render(request, self.template_class, self.context)
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
+        # breakpoint()
         if form.is_valid():
             profile = form.save(commit=False)
             profile.site = Site.objects.get(pk=settings.SITE_ID)
             profile.save()
             login(request, profile)
-            messages.success(request, 'Account has been created!')
+            messages.success(request, 'Konto zostało utworzone!')
             return redirect('main-page')
 
-        messages.error(request, 'Something gone wrong. Please try again.')
+        messages.error(request, 'Niepoprawne podane dane. Prosimy spróbować jeszcze raz.')
         self.context['registration_form'] = form
         return render(request, self.template_class, self.context)
 
@@ -52,7 +54,7 @@ class LoginView(View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            messages.error(request, "Sorry you're already logged-in!")
+            messages.error(request, "Przepraszamy ale jesteś już zalogowany!")
             return redirect('main-page')
 
         self.context['login_form'] = self.form_class
@@ -61,14 +63,14 @@ class LoginView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            email = form.cleaned_data['email'].lower()
+            email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request, email=email, password=password)
             if user is not None:
                 login(request, user)
                 return redirect('main-page')
         self.context['login_form'] = form
-        messages.error(request, "There was an error. Please try with the correct username or password.")
+        messages.error(request, "Niepoprawny login lub hasło. Spróbuj jeszcze raz.")
         return render(request, self.template_class, self.context)
 
 
@@ -81,7 +83,7 @@ class LogoutView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         logout(request)
-        messages.info(request, 'You are logged out!')
+        messages.info(request, 'Zostałeś wylogowany.')
         return redirect('main-page')
 
 
@@ -143,12 +145,13 @@ class ProfileEditView(LoginRequiredMixin, View):
             if profile.check_password(password):
                 form_edit_profile.save()
                 return redirect('profile-edit', profile.pk)
+            messages.error(request, "Podane hasło jest niepoprawne")
         if form_reset_password.is_valid():
             form_reset_password.save()
             update_session_auth_hash(request, form_reset_password.user)
             return redirect('profile-edit', profile.pk)
 
-        messages.error(request, "Hasło niepoprawne spróbuj ponownie")
         self.context['form_edit_profile'] = form_edit_profile
-        self.context['foooter_disabled'] = True
+        self.context['form_reset_password'] = form_reset_password
+        self.context['footer_disabled'] = True
         return render(request, self.template_class, self.context)

@@ -11,15 +11,23 @@
 
     <section class="login-page">
         <h2>Zaloguj się</h2>
+
+        {% include 'errors.html' %}
+
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                <input type="email" name="email" placeholder="Email"/>
+                <input type="email" name="email" maxlength="255" value="{{ login_form.email.value|default_if_none:'' }}" placeholder="Email"/>
             </div>
             <div class="form-group">
-                <input type="password" name="password" placeholder="Hasło"/>
-                <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
+                <input type="password" name="password" maxlength="128" placeholder="Hasło"/>
+                <a href="#" class="btn btn--small btn--without-border reset-password">Zresetuj hasło</a>
             </div>
+            {% for field in login_form %}
+                {% for error in field.errors %}
+                    <strong class="message-error">{{ error|escape }}</strong>
+                {% endfor %}
+            {% endfor %}
 
             <div class="form-group form-group--buttons">
                 <a href="{% url 'register' %}" class="btn btn--without-border">Załóż konto</a>

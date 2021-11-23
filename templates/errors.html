@@ -1,0 +1,9 @@
+{% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <strong class="message-error">
+                {{ message }}
+            </strong>
+        {% endif %}
+    {% endfor %}
+{% endif %}
