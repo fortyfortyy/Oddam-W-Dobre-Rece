@@ -97,7 +97,7 @@
                     {% if insitution.type == 'FUNDACJA' %}
                         <li>
                             <div class="col">
-                                <div class="title">Fundacja "{{ insitution.name }}"</div>
+                                <div class="title">Fundacja "{{ insitution.name|title }}"</div>
                                 <div class="subtitle">Cel i misja: {{ insitution.description }}.</div>
                             </div>
 
@@ -130,7 +130,7 @@
                     {% if insitution.type == 'ORGANIZACJA POZARZĄDOWA' %}
                         <li>
                             <div class="col">
-                                <div class="title">Organizacja "{{ insitution.name }}"</div>
+                                <div class="title">Organizacja "{{ insitution.name|title }}"</div>
                                 <div class="subtitle">Cel i misja: {{ insitution.description }}.</div>
                             </div>
 
@@ -162,7 +162,7 @@
                     {% if insitution.type == 'ZBIÓRKA LOKALNA' %}
                         <li>
                             <div class="col">
-                                <div class="title">Lokalna zbiórka "{{ insitution.name }}"</div>
+                                <div class="title">Lokalna zbiórka "{{ insitution.name|title }}"</div>
                                 <div class="subtitle">Cel i misja: {{ insitution.description }}.</div>
                             </div>
 
