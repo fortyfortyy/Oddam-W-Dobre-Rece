@@ -1,20 +1,23 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.sites.models import Site
 from django.shortcuts import redirect, render
 from django.views import View
 
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
+
 from mainapp.models import Donation
 from project import settings
 from users.models import Profile
 from users.forms import CustomUserCreationForm, LoginForm, ProfileEditForm
+from users.utils import account_activation_token
 
 
 class RegisterView(View):
     """
-    Create the user account and also log in.
+    Create the user account and activate account by link sent to given email.
     """
     form_class = CustomUserCreationForm
     template_class = 'users/register.html'
@@ -29,18 +32,47 @@ class RegisterView(View):
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
-        # breakpoint()
         if form.is_valid():
             profile = form.save(commit=False)
+            profile.is_active = False
             profile.site = Site.objects.get(pk=settings.SITE_ID)
             profile.save()
-            login(request, profile)
-            messages.success(request, 'Konto zostało utworzone!')
-            return redirect('main-page')
 
-        messages.error(request, 'Niepoprawne podane dane. Prosimy spróbować jeszcze raz.')
+            messages.success(request, 'Proszę potwierdzić swój adres email w celu aktywacji utworzenego konta')
+            return render(request, self.template_class, self.context)
+
+        messages.error(request, 'Niepoprawne podane dane. Prosimy spróbować jeszcze raz')
         self.context['registration_form'] = form
         return render(request, self.template_class, self.context)
+
+
+class ActivateAccountView(View):
+    """
+    Checks whether the link is valid for the given user.
+    Then, activate account.
+    """
+    def get(self, request, *args, **kwargs):
+        try:
+            uid = force_text(urlsafe_base64_decode(kwargs['uidb64']))
+            profile = Profile.objects.get(pk=uid)
+        except (TypeError, ValueError, OverflowError, KeyError, Profile.DoesNotExist):
+            profile = None
+        if profile is not None and account_activation_token.check_token(profile, kwargs['token']):
+            profile.is_active = True
+
+            # Create temporary attribute to send welcome message
+            # When it's done, delete that attribute
+            try:
+                profile._sendwelcomemessage = True
+                profile.save()
+            finally:
+                del profile._sendwelcomemessage
+
+            login(request, profile)
+            messages.success(request, "Twoje konto zostało pomyślnie aktywowane")
+            return redirect('main-page')
+        messages.error(request, "Wystąpił błąd podczas aktywacji. Spróbuj ponownie")
+        return redirect('password_reset')
 
 
 class LoginView(View):
@@ -70,7 +102,7 @@ class LoginView(View):
                 login(request, user)
                 return redirect('main-page')
         self.context['login_form'] = form
-        messages.error(request, "Niepoprawny login lub hasło. Spróbuj jeszcze raz.")
+        messages.error(request, "Niepoprawny login lub hasło. Spróbuj jeszcze raz")
         return render(request, self.template_class, self.context)
 
 
@@ -83,11 +115,15 @@ class LogoutView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         logout(request)
-        messages.info(request, 'Zostałeś wylogowany.')
+        messages.info(request, 'Zostałeś wylogowany')
         return redirect('main-page')
 
 
 class ProfileView(LoginRequiredMixin, View):
+    """
+    Shows user's profile and it's donations.
+    Handles the taken and not taken donations.
+    """
     login_url = '/account/login/'
     template_class = 'users/profile.html'
     context = {}
@@ -119,10 +155,13 @@ class ProfileView(LoginRequiredMixin, View):
 
 
 class ProfileEditView(LoginRequiredMixin, View):
+    """
+    Shows user's profile and forms for editing name, surname, email and password.
+    Handles the forms and checks if are valid.
+    """
     login_url = '/account/login/'
     template_class = 'users/profile-edit-form.html'
     form_edit_profile = ProfileEditForm
-    form_reset_password = PasswordChangeForm
     context = {}
 
     def get(self, request, *args, **kwargs):
@@ -132,26 +171,18 @@ class ProfileEditView(LoginRequiredMixin, View):
         except Profile.DoesNotExist:
             return redirect('main-page')
         self.context['form_edit_profile'] = self.form_edit_profile(instance=profile)
-        self.context['form_reset_password'] = self.form_reset_password(user=profile)
         self.context['footer_disabled'] = True
         return render(request, self.template_class, self.context)
 
     def post(self, request, *args, **kwargs):
         profile = Profile.objects.get(pk=kwargs['pk'])
         form_edit_profile = self.form_edit_profile(request.POST, instance=profile)
-        form_reset_password = self.form_reset_password(data=request.POST, user=request.user)
         if form_edit_profile.is_valid():
             password = form_edit_profile.data['password']
             if profile.check_password(password):
                 form_edit_profile.save()
                 return redirect('profile-edit', profile.pk)
             messages.error(request, "Podane hasło jest niepoprawne")
-        if form_reset_password.is_valid():
-            form_reset_password.save()
-            update_session_auth_hash(request, form_reset_password.user)
-            return redirect('profile-edit', profile.pk)
-
         self.context['form_edit_profile'] = form_edit_profile
-        self.context['form_reset_password'] = form_reset_password
         self.context['footer_disabled'] = True
         return render(request, self.template_class, self.context)
