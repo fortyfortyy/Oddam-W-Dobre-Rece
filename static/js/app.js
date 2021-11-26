@@ -131,27 +131,28 @@ document.addEventListener("DOMContentLoaded", function () {
                 const target = e.target;
                 this.dropdown.classList.toggle("selecting");
 
-        // Save new value only when clicked on li
-        if (target.tagName === "LI") {
-          this.valueInput.value = target.dataset.value;
-          this.current.innerText = target.innerText;
+                // Save new value only when clicked on li
+                if (target.tagName === "LI") {
+                    this.valueInput.value = target.dataset.value;
+                    this.current.innerText = target.innerText;
+                }
+            });
         }
-      });
     }
-  }
-  document.querySelectorAll(".form-group--dropdown select").forEach(el => {
-    new FormSelect(el);
-  });
+
+    document.querySelectorAll(".form-group--dropdown select").forEach(el => {
+        new FormSelect(el);
+    });
 
     //     let testForm = document.querySelector(".form-group--dropdown")
     // new FormSelect(testForm);
     // console.log(testForm)
-  /**
-   * Hide elements when clicked on document
-   */
-  document.addEventListener("click", function(e) {
-    const target = e.target;
-    const tagName = target.tagName;
+    /**
+     * Hide elements when clicked on document
+     */
+    document.addEventListener("click", function (e) {
+        const target = e.target;
+        const tagName = target.tagName;
 
         if (target.classList.contains("dropdown")) return false;
 
@@ -233,12 +234,12 @@ document.addEventListener("DOMContentLoaded", function () {
          * Show next or previous section etc.
          */
 
-        _getFormInputs(step){
-            if (step === 1){
+        _getFormInputs(step) {
+            if (step === 1) {
                 let checkboxes = document.querySelectorAll("input[name='categories']");
                 let firstStepResult = [];
-                checkboxes.forEach(el =>{
-                    if (el.checked === true){
+                checkboxes.forEach(el => {
+                    if (el.checked === true) {
                         firstStepResult.push({
                             'name': el.name,
                             'value': el.value,
@@ -254,9 +255,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            if (step === 2){
+            if (step === 2) {
                 let numberOfQuantity = document.querySelector("input[name='quantity']");
-                if (numberOfQuantity.value > '0'){
+                if (numberOfQuantity.value > '0') {
                     this.result['secondStepResult'] = {
                         'name': numberOfQuantity.name,
                         'value': numberOfQuantity.value,
@@ -266,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            if (step === 3){
+            if (step === 3) {
                 let institution = document.querySelector("input[name='institution']:checked");
                 let institutionName = institution.parentElement.querySelector(".title").innerHTML;
                 this.result['thirdStepResult'] = {
@@ -276,16 +277,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
             }
 
-            if (step === 4){
+            if (step === 4) {
                 let divHelper = document.querySelector("#jsStepForth").querySelectorAll("input, textarea");
                 let forthStepResult = []
-                divHelper.forEach(el =>{
+                divHelper.forEach(el => {
                     forthStepResult.push({
                         'name': el.name,
                         'value': el.value,
                     });
                 });
-                if (forthStepResult.length > 0){
+                if (forthStepResult.length > 0) {
                     this.result['forthStepResult'] = forthStepResult;
                 } else {
                     delete this.result.forthStepResult;
@@ -313,31 +314,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Get data from inputs and show them in summary
 
-            if (this.currentStep === 5){
-               document.querySelector("#jsQuantity").innerHTML = this.result.secondStepResult['value'] +
-                   ` worki  w dobrym stanie dla dzieci`;
-               document.querySelector("#jsInstitutionName").innerHTML = `Dla fundacji "${this.result.thirdStepResult['institutionName']}"`;
+            if (this.currentStep === 5) {
+                document.querySelector("#jsQuantity").innerHTML = this.result.secondStepResult['value'] +
+                    ` worki  w dobrym stanie dla dzieci`;
+                document.querySelector("#jsInstitutionName").innerHTML = `Dla fundacji "${this.result.thirdStepResult['institutionName']}"`;
 
                 let pickUpUl = document.querySelector("#jsPickUp");
                 pickUpUl.innerHTML = '';
                 let addressUl = document.querySelector("#jsAddress");
                 addressUl.innerHTML = '';
-               this.result['forthStepResult'].forEach(el =>{
-                   if (el.name === 'pick_up_date' || el.name === 'pick_up_time' || el.name === 'pick_up_comment'){
-                       let li = document.createElement('li')
-                       if (el.name === 'pick_up_comment' && el.value === ''){
-                           li.innerHTML = 'Brak uwag';
-                       } else {
-                           li.innerHTML = el.value;
-                       }
+                this.result['forthStepResult'].forEach(el => {
+                    if (el.name === 'pick_up_date' || el.name === 'pick_up_time' || el.name === 'pick_up_comment') {
+                        let li = document.createElement('li')
+                        if (el.name === 'pick_up_comment' && el.value === '') {
+                            li.innerHTML = 'Brak uwag';
+                        } else {
+                            li.innerHTML = el.value;
+                        }
                         document.querySelector("#jsPickUpComment").innerHTML = li.innerHTML;
                         pickUpUl.appendChild(li);
-                   } else {
-                       let li = document.createElement('li');
-                       li.innerHTML = el.value;
-                       addressUl.appendChild(li);
-                   }
-               });
+                    } else {
+                        let li = document.createElement('li');
+                        li.innerHTML = el.value;
+                        addressUl.appendChild(li);
+                    }
+                });
             }
         }
 
@@ -358,4 +359,101 @@ document.addEventListener("DOMContentLoaded", function () {
     if (form !== null) {
         new FormSteps(form);
     }
+
+    class FooterForm {
+        constructor($el) {
+            this.$el = $el;
+            this.init();
+        }
+
+        init() {
+            this.events();
+        }
+
+        events(){
+            let footer_form = this.$el;
+            let a = footer_form.querySelector('.message-error');
+            if (a){
+                document.getElementById("contact").scrollIntoView({behavior: 'smooth'});
+            }
+        }
+
+    }
+
+    const footer = document.querySelector("#footer_form");
+    if (footer !== null) {
+        new FooterForm(footer);
+    }
+
+    //
+    // class SectionButtons {
+    //     constructor($el) {
+    //         this.$el = $el;
+    //         this.init();
+    //     }
+    //
+    //     init() {
+    //         this.events();
+    //     }
+    //
+    //     sleep(ms) {
+    //         return new Promise(resolve => setTimeout(resolve, ms));
+    //     }
+    //
+    //      async events(){
+    //
+    //         let buttonsUlHelp = this.$el;
+    //         buttonsUlHelp.querySelectorAll("a").forEach(button => {
+    //             button.addEventListener('click', el => {
+    //                 let buttonHash = el.currentTarget.hash;
+    //                 let currentBaseURI = el.currentTarget.baseURI;
+    //                 el.currentTarget.removeAttribute("href");
+    //                 if (buttonHash){
+    //                     if (buttonHash !== '#section-1'){
+    //                         let a = document.querySelector(`${buttonHash}`);
+    //                         a.scrollIntoView({behavior: 'smooth'});
+    //                         console.log('czekanie 2s');
+    //
+    //                         // await this.sleep(2000).then(() =>{
+    //                         //     el.currentTarget.setAttribute('href', `${currentBaseURI}`);
+    //                         // });
+    //
+    //                         // this.sleep(2000).then(r => el.currentTarget.setAttribute('href', `${currentBaseURI}`));
+    //                         console.log('wykonanie tego krokusssss')
+    //                     } else {
+    //                         console.log('tu zrobic do section-1');
+    //                     }
+    //                 }
+    //             })
+    //
+    //
+    //             // let stepHash = button.hash;
+    //             // if (stepHash){
+    //             //     if (stepHash !== '#section-1'){
+    //             //         let a = document.querySelector(`${stepHash}`);
+    //             //         a.scrollIntoView({behavior: 'smooth'});
+    //             //     }
+    //             // }
+    //             // document.querySelector(`${target}`).scrollIntoView({behavior: 'smooth'});
+    //         });
+    //     }
+    //
+    // }
+    //
+    // const buttonsHelp = document.querySelector("#js_help_buttons");
+    // if (buttonsHelp !== null) {
+    //     new SectionButtons(buttonsHelp);
+    // }
+
+
+    // After password changed is done, moved to the main site after 3sec
+    let currentLocation = window.location.href;
+    if (currentLocation === 'http://127.0.0.1:8000/password/change/done/'){
+        let tID = setTimeout(function () {
+            window.location.href = "http://127.0.0.1:8000";
+            window.clearTimeout(tID);		// clear time out.
+        }, 3000);
+    }
+
 });
+
