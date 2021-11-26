@@ -1,0 +1,11 @@
+{% autoescape off %}
+    Cześć {{ profile.first_name }}!
+
+    W celu aktywowania konta w naszej usłudze 'Oddaj w Dobre Ręce', prosimy o potwierdzenie za pomocą poniższego linku:
+
+    http://{{ domain }}{% url 'activate-account' uidb64=uid token=token %}
+
+
+    Miłego dnia!
+    Oddaj w Dobre Ręce
+{% endautoescape %}
