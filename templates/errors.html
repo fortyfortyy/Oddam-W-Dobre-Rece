@@ -4,6 +4,10 @@
             <strong class="message-error">
                 {{ message }}
             </strong>
+        {% else %}
+            <strong class="message-success">
+                {{ message }}
+            </strong>
         {% endif %}
     {% endfor %}
 {% endif %}

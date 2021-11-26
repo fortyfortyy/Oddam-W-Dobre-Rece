@@ -437,6 +437,13 @@ h2:after {
   padding: 0 15px;
 }
 
+.container-reset-passw {
+  grid-column-start: 2;
+  grid-column-end: five;
+  grid-row-start: row1-start;
+  grid-row-end: 3;
+}
+
 /* line 30, scss/modules/_base.scss */
 .container--70 {
   width: 70vw;
@@ -521,6 +528,10 @@ form {
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
 }
+
+/*.help-buttons {*/
+/*  scroll-behavior: smooth;*/
+/*}*/
 
 /* line 5, scss/modules/_forms.scss */
 form .form-group {
@@ -1830,6 +1841,12 @@ footer .bottom-line--icons a img {
 
 .message-error {
   color: red;
+  font-size: 1.2rem;
+  padding: 0 15px;
+}
+
+.message-success {
+  color: darkgreen;
   font-size: 1.2rem;
   padding: 0 15px;
 }
