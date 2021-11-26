@@ -33,7 +33,7 @@
             </form>
         </div>
         <div class="about-us--text">
-            <form method="post">
+            <form action="{% url 'password_change' %}" method="post">
                 {% csrf_token %}
                 <h1 class="h3">Zmień hasło</h1>
                 <label for="id_old_password"></label>
