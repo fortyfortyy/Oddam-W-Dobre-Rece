@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        {% include 'errors.html' %}
+
+        <h2 class="text-center">Wprowadź nowe hasło</h2>
+           <p>
+               Prosimy podać dwa razy nowe hasło. Dzięki temu będziemy mogli je zweryfikować.
+           </p>
+        <label class="" for="id_new_password1">
+            <input name="new_password1" class="form-control" placeholder="Nowe hasło"
+                   type="password" id="id_new_password1" required>
+        </label>
+        <label for="id_new_password2">
+            <input name="new_password2" class="form-control" placeholder="Powtórz hasło"
+                   type="password" id="id_new_password2" required>
+        </label>
+
+        {% for field in form %}
+            {% for error in field.errors %}
+                <strong class="message-error">{{ error|escape }}</strong>
+            {% endfor %}
+        {% endfor %}
+
+        <button class="btn btn-success m-1" id="add-tags-form" type="submit">
+            Change password
+        </button>
+    </form>
+
+
+{% endblock %}
