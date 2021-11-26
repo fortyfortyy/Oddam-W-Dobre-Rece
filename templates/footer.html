@@ -3,12 +3,27 @@
 <footer>
     <div id="contact" class="contact">
         <h2>Skontaktuj się z nami</h2>
+
+        {% include 'errors.html' %}
+
         <h3>Formularz kontaktowy</h3>
-        <form method="post" action="{% url 'main-page' %}" class="form--contact">
+
+        <form method="post" id="footer_form" action="{% url 'main-page' %}" class="form--contact">
             {% csrf_token %}
-            <div class="form-group form-group--50">{{ footer_form.name }}</div>
-            <div class="form-group form-group--50">{{ footer_form.surname }}</div>
-            <div class="form-group">{{ footer_form.message }}</div>
+
+            {% for field in footer_form %}
+                {% for error in field.errors %}
+                    <strong class="message-error">{{ error|escape }}</strong>
+                {% endfor %}
+                {% if field.name == 'name' or field.name == 'email' %}
+                    <div class="form-group form-group--50">{{ field }}</div>
+                {% else %}
+                    <div class="form-group">{{ field }}</div>
+                {% endif %}
+            {% endfor %}
+{#            <div class="form-group form-group--50">{{ footer_form.name }}</div>#}
+{#            <div class="form-group form-group--50">{{ footer_form.email }}</div>#}
+{#            <div class="form-group">{{ footer_form.message }}</div>#}
             <button class="btn" type="submit">Wyślij</button>
         </form>
     </div>
