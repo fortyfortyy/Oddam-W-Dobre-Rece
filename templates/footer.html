@@ -1,5 +1,4 @@
 {% load static %}
-{% if not footer_disabled %}
 <footer>
     <div id="contact" class="contact">
         <h2>Skontaktuj się z nami</h2>
@@ -12,18 +11,17 @@
             {% csrf_token %}
 
             {% for field in footer_form %}
-                {% for error in field.errors %}
-                    <strong class="message-error">{{ error|escape }}</strong>
-                {% endfor %}
                 {% if field.name == 'name' or field.name == 'email' %}
-                    <div class="form-group form-group--50">{{ field }}</div>
+                    <div class="form-group form-group--50">
+                        {{ field }}
+                        {% for error in field.errors %}
+                            <div class="requirements message-error">{{ error|escape }}</div>
+                        {% endfor %}
+                    </div>
                 {% else %}
                     <div class="form-group">{{ field }}</div>
                 {% endif %}
             {% endfor %}
-{#            <div class="form-group form-group--50">{{ footer_form.name }}</div>#}
-{#            <div class="form-group form-group--50">{{ footer_form.email }}</div>#}
-{#            <div class="form-group">{{ footer_form.message }}</div>#}
             <button class="btn" type="submit">Wyślij</button>
         </form>
     </div>
@@ -35,4 +33,3 @@
         </div>
     </div>
 </footer>
-{% endif %}

@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.contrib.sites.models import Site
+from django.contrib.auth.signals import user_logged_out, user_logged_in
+from django.contrib import messages
 
 #  imports needed for email
 from django.core.mail import EmailMessage
@@ -61,3 +63,11 @@ def activation_user_mail(sender, instance, created, **kwargs):
         mail.send()
 
 
+@receiver(user_logged_out)
+def on_user_logged_out(sender, request, **kwargs):
+    messages.add_message(request, messages.SUCCESS, 'Zostałeś wylogowany.')
+
+
+@receiver(user_logged_in)
+def on_user_logged_out(sender, request, **kwargs):
+    messages.add_message(request, messages.SUCCESS, 'Zostałeś zalogowany.')

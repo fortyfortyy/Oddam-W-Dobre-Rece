@@ -1,13 +1,22 @@
 {% if messages %}
     {% for message in messages %}
-        {% if message.tags == 'error' %}
-            <strong class="message-error">
-                {{ message }}
-            </strong>
-        {% else %}
-            <strong class="message-success">
-                {{ message }}
-            </strong>
-        {% endif %}
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <div class="body">
+                    {% if message.tags == 'error' %}
+                        <h2 class="message-error">
+                            {{ message }}
+                        </h2>
+                        <button data-close-button class="close-button-error">Zamknij</button>
+                    {% else %}
+                        <h2 class="message-success">
+                            {{ message }}
+                        </h2>
+                        <button data-close-button class="close-button-success">Zamknij</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div id="overlay"></div>
     {% endfor %}
 {% endif %}

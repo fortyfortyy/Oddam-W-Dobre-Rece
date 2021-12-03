@@ -38,10 +38,10 @@ class RegisterView(View):
             profile.site = Site.objects.get(pk=settings.SITE_ID)
             profile.save()
 
-            messages.success(request, 'Proszę potwierdzić swój adres email w celu aktywacji utworzenego konta')
+            messages.success(request, 'Proszę potwierdzić swój adres email w celu aktywacji utworzenego konta.')
             return render(request, self.template_class, self.context)
 
-        messages.error(request, 'Niepoprawne podane dane. Prosimy spróbować jeszcze raz')
+        messages.error(request, 'Niepoprawne podane dane. Prosimy spróbować jeszcze raz.')
         self.context['registration_form'] = form
         return render(request, self.template_class, self.context)
 
@@ -51,12 +51,17 @@ class ActivateAccountView(View):
     Checks whether the link is valid for the given user.
     Then, activate account.
     """
+    template_class = 'main.html'
+    context = {}
+
     def get(self, request, *args, **kwargs):
         try:
             uid = force_text(urlsafe_base64_decode(kwargs['uidb64']))
             profile = Profile.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, KeyError, Profile.DoesNotExist):
             profile = None
+
+        self.context['activation_message'] = True
         if profile is not None and account_activation_token.check_token(profile, kwargs['token']):
             profile.is_active = True
 
@@ -69,10 +74,10 @@ class ActivateAccountView(View):
                 del profile._sendwelcomemessage
 
             login(request, profile)
-            messages.success(request, "Twoje konto zostało pomyślnie aktywowane")
-            return redirect('main-page')
-        messages.error(request, "Wystąpił błąd podczas aktywacji. Spróbuj ponownie")
-        return redirect('password_reset')
+            messages.success(request, "Twoje konto zostało pomyślnie aktywowane!")
+            return render(request, self.template_class, self.context)
+        messages.error(request, "Twoje konto już jest aktywne!")
+        return render(request, self.template_class, self.context)
 
 
 class LoginView(View):
@@ -102,7 +107,7 @@ class LoginView(View):
                 login(request, user)
                 return redirect('main-page')
         self.context['login_form'] = form
-        messages.error(request, "Niepoprawny login lub hasło. Spróbuj jeszcze raz")
+        messages.error(request, "Niepoprawny login lub hasło. Spróbuj jeszcze raz.")
         return render(request, self.template_class, self.context)
 
 
@@ -115,7 +120,6 @@ class LogoutView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         logout(request)
-        messages.info(request, 'Zostałeś wylogowany')
         return redirect('main-page')
 
 
@@ -133,7 +137,6 @@ class ProfileView(LoginRequiredMixin, View):
         profile = Profile.objects.get(pk=request.user.pk)
         self.context['donations'] = donations
         self.context['profile'] = profile
-        self.context['footer_disabled'] = True
         return render(request, self.template_class, self.context)
 
     def post(self, request, *args, **kwargs):
@@ -171,7 +174,6 @@ class ProfileEditView(LoginRequiredMixin, View):
         except Profile.DoesNotExist:
             return redirect('main-page')
         self.context['form_edit_profile'] = self.form_edit_profile(instance=profile)
-        self.context['footer_disabled'] = True
         return render(request, self.template_class, self.context)
 
     def post(self, request, *args, **kwargs):
@@ -182,7 +184,6 @@ class ProfileEditView(LoginRequiredMixin, View):
             if profile.check_password(password):
                 form_edit_profile.save()
                 return redirect('profile-edit', profile.pk)
-            messages.error(request, "Podane hasło jest niepoprawne")
+            messages.error(request, "Podane hasło jest niepoprawne.")
         self.context['form_edit_profile'] = form_edit_profile
-        self.context['footer_disabled'] = True
         return render(request, self.template_class, self.context)

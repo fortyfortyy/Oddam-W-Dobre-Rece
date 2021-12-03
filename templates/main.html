@@ -9,6 +9,10 @@
 
         </nav>
 
+        {% if activation_message %}
+            {% include 'errors.html' %}
+        {% endif %}
+
         <div class="slogan container container--90">
             <div class="slogan--item">
                 <h1>
@@ -183,4 +187,5 @@
         </div>
     </section>
 
+    {% include 'footer.html' %}
 {% endblock %}

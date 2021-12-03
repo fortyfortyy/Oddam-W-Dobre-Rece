@@ -80,7 +80,6 @@ class AddDonationView(LoginRequiredMixin, View):
         self.context['institutions'] = institutions
         self.context['categories'] = categories
         self.context['donation_form'] = DonationForm
-        self.context['footer_disabled'] = True
         return render(request, self.template_form_class, self.context)
 
     def post(self, request, *args, **kwargs):

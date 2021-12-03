@@ -21,12 +21,12 @@
 {% endif %}
 
 <ul id="js_help_buttons">
-    <li><a href="{% url 'main-page' %}" class="btn btn--without-border active help-buttons">Start</a></li>
-    <li><a href="{% url 'main-page' %}#steps" class="btn btn--without-border help-buttons">O co chodzi?</a></li>
-    <li><a href="{% url 'main-page' %}#about-us" class="btn btn--without-border help-buttons">O nas</a></li>
-    <li><a href="{% url 'main-page' %}#help" class="btn btn--without-border help-buttons">Fundacje i organizacje</a></li>
+    <li><a href="{% url 'main-page' %}" class="btn btn--without-border active">Start</a></li>
+    <li><a href="{% url 'main-page' %}#steps" class="btn btn--without-border">O co chodzi?</a></li>
+    <li><a href="{% url 'main-page' %}#about-us" class="btn btn--without-border">O nas</a></li>
+    <li><a href="{% url 'main-page' %}#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
     {% if user.is_authenticated %}
-        <li><a href="{% url 'add-donation' %}#section-1" class="btn btn--without-border help-buttons">Przekaż dary</a></li>
+        <li><a href="{% url 'add-donation' %}#section-1" class="btn btn--without-border">Przekaż dary</a></li>
     {% endif %}
-    <li><a href="{% url 'main-page' %}#contact" class="btn btn--without-border help-buttons">Kontakt</a></li>
+    <li><a href="{% url 'main-page' %}#contact" class="btn btn--without-border">Kontakt</a></li>
 </ul>

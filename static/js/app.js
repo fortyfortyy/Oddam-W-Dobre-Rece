@@ -361,6 +361,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     class FooterForm {
+        /**
+         Handles contact form and scroll smoothly to it
+         */
         constructor($el) {
             this.$el = $el;
             this.init();
@@ -372,8 +375,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         events(){
             let footer_form = this.$el;
-            let a = footer_form.querySelector('.message-error');
-            if (a){
+            let messageError = footer_form.querySelector('.message-error');
+            if (messageError){
                 document.getElementById("contact").scrollIntoView({behavior: 'smooth'});
             }
         }
@@ -385,68 +388,7 @@ document.addEventListener("DOMContentLoaded", function () {
         new FooterForm(footer);
     }
 
-    //
-    // class SectionButtons {
-    //     constructor($el) {
-    //         this.$el = $el;
-    //         this.init();
-    //     }
-    //
-    //     init() {
-    //         this.events();
-    //     }
-    //
-    //     sleep(ms) {
-    //         return new Promise(resolve => setTimeout(resolve, ms));
-    //     }
-    //
-    //      async events(){
-    //
-    //         let buttonsUlHelp = this.$el;
-    //         buttonsUlHelp.querySelectorAll("a").forEach(button => {
-    //             button.addEventListener('click', el => {
-    //                 let buttonHash = el.currentTarget.hash;
-    //                 let currentBaseURI = el.currentTarget.baseURI;
-    //                 el.currentTarget.removeAttribute("href");
-    //                 if (buttonHash){
-    //                     if (buttonHash !== '#section-1'){
-    //                         let a = document.querySelector(`${buttonHash}`);
-    //                         a.scrollIntoView({behavior: 'smooth'});
-    //                         console.log('czekanie 2s');
-    //
-    //                         // await this.sleep(2000).then(() =>{
-    //                         //     el.currentTarget.setAttribute('href', `${currentBaseURI}`);
-    //                         // });
-    //
-    //                         // this.sleep(2000).then(r => el.currentTarget.setAttribute('href', `${currentBaseURI}`));
-    //                         console.log('wykonanie tego krokusssss')
-    //                     } else {
-    //                         console.log('tu zrobic do section-1');
-    //                     }
-    //                 }
-    //             })
-    //
-    //
-    //             // let stepHash = button.hash;
-    //             // if (stepHash){
-    //             //     if (stepHash !== '#section-1'){
-    //             //         let a = document.querySelector(`${stepHash}`);
-    //             //         a.scrollIntoView({behavior: 'smooth'});
-    //             //     }
-    //             // }
-    //             // document.querySelector(`${target}`).scrollIntoView({behavior: 'smooth'});
-    //         });
-    //     }
-    //
-    // }
-    //
-    // const buttonsHelp = document.querySelector("#js_help_buttons");
-    // if (buttonsHelp !== null) {
-    //     new SectionButtons(buttonsHelp);
-    // }
-
-
-    // After password changed is done, moved to the main site after 3sec
+    // After password is changed, wait 3sec and move to the main site
     let currentLocation = window.location.href;
     if (currentLocation === 'http://127.0.0.1:8000/password/change/done/'){
         let tID = setTimeout(function () {

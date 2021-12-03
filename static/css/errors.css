@@ -1,0 +1,99 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+.modal-header .close-button-error {
+    cursor: pointer;
+    padding: 1em 2em;
+    outline: none;
+    font-weight: 600;
+    border: none;
+    color: #fff;
+    background: #c94e50;
+}
+
+.modal-header .close-button-error {
+    background: #c94e50;
+    color: #fff;
+    border: none;
+}
+
+.modal-header .close-button-success {
+    cursor: pointer;
+    padding: 1em 2em;
+    outline: none;
+    font-weight: 600;
+    border: none;
+    color: #fff;
+    background: darkgreen;
+}
+
+.modal-header .close-button-success {
+    background: darkgreen;
+    color: #fff;
+    border: none;
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-weight: 400;
+    font-size: 2em;
+    padding: 0 0 2em;
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 560px;
+    min-width: 290px;
+    padding: 4em;
+    transform: translate(-50%, -50%) scale(0);
+    transition: 400ms cubic-bezier(0.74, 0, 1, 1);
+    border-radius: 10px;
+    z-index: 10;
+    background-color: #fff;
+    text-align: center;
+    font-style: italic;
+}
+
+.modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-header {
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header .body {
+    font-size: 1.25rem;
+}
+
+#overlay {
+    position: fixed;
+    opacity: 0;
+    transition: 200ms ease-in-out;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, .5);
+    pointer-events: none;
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.message-error {
+    color: red;
+}
+
+.message-success {
+    color: darkgreen;
+}
+
