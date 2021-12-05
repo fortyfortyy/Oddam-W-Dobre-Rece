@@ -10,6 +10,7 @@
         <title>Oddam W Dobre Rece!</title>
         <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
         <link rel="stylesheet" href="{% static 'css/errors.css' %}"/>
+        <link rel="stylesheet" href="{% static 'awesome/css/all.css' %}">
     </head>
 
     <body>
@@ -19,6 +20,8 @@
         {% endblock %}
 
         <script src="{% static '/js/app.js' %}"></script>
-        <script src="{% static '/js/errors.js' %}"></script>
+        {% if messages %}
+            <script src="{% static '/js/errors.js' %}"></script>
+        {% endif %}
     </body>
 </html>

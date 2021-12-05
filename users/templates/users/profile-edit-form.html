@@ -1,58 +1,114 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
     <header>
         <nav class="container container--70">
-         {% include 'navbar.html' %}
+            {% include 'navbar.html' %}
         </nav>
     </header>
-     <section class="about-us">
-        <div class="about-us--text">
-            <form method="post">
-                {% csrf_token %}
-                <label for="id_first_name">
-                    <input id="id_first_name" placeholder="Imię" type="text" name="first_name" maxlength="150" value="{{ form_edit_profile.first_name.value|default_if_none:'' }}">
-                </label>
-                <label for="id_last_name">
-                    <input id="id_last_name" placeholder="Nazwisko" type="text" name="last_name" maxlength="150" value="{{ form_edit_profile.last_name.value|default_if_none:'' }}">
-                </label>
-                <label for="id_email">
-                    <input id="id_email" placeholder="Email" type="email" name="email" maxlength="255" value="{{ form_edit_profile.email.value|default_if_none:'' }}">
-                </label>
-                <label for="id_password">
-                    <input id="id_password" type="password" name="password" placeholder="Podaj swoje hasło do zatwierdzenia danych">
-                </label>
-                <input type="submit" value="Zaaktualizuj">
+    <div class="grid-wrapper">
+        <div class="grid-profile">
 
-                {% for field in form_edit_profile %}
-                    {% for error in field.errors %}
-                        <strong class="message-error">{{ error|escape }}</strong>
+            <div class="grid-profile-container">
+                <div class="header-form">
+                    <h3>Zmień Dane</h3>
+                </div>
+
+                <form class="settings-form" method="post" id="first-settings-form">
+                    {% csrf_token %}
+                    <div class="settings-form-control">
+                        <label for="id_first_name">Imię*</label>
+                        <input id="id_first_name" placeholder="Imię" type="text" name="first_name" maxlength="150"
+                               value="{{ form_edit_profile.first_name.value|default_if_none:'' }}">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                        <small>Error message</small>
+                    </div>
+
+                    <div class="settings-form-control">
+                        <label for="id_last_name">Nazwisko*</label>
+                        <input id="id_last_name" placeholder="Nazwisko" type="text" name="last_name" maxlength="150"
+                               value="{{ form_edit_profile.last_name.value|default_if_none:'' }}">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                        <small>Error message</small>
+                    </div>
+
+                    <div class="settings-form-control">
+                        <label for="id_email">Email*</label>
+                        <input id="id_email" placeholder="Email" type="email" name="email" maxlength="255"
+                               value="{{ form_edit_profile.email.value|default_if_none:'' }}">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                        <small>Error message</small>
+                    </div>
+
+                    <div class="settings-form-control">
+                        <label for="id_password">Podaj swoje hasło do zatwierdzenia danych*</label>
+                        <input id="id_password" type="password" name="password"
+                               placeholder="Hasło">
+
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                        <small>Error message</small>
+                    </div>
+
+                    <button type="submit">Zaaktualizuj dane</button>
+
+                    {% for field in form_edit_profile %}
+                        {% for error in field.errors %}
+                            <strong class="message-error">{{ error|escape }}</strong>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
 
-                {% include 'errors.html' %}
-            </form>
+                    {% include 'errors.html' %}
+                </form>
+            </div>
         </div>
-        <div class="about-us--text">
-            <form action="{% url 'password_change' %}" method="post">
-                {% csrf_token %}
-                <h1 class="h3">Zmień hasło</h1>
-                <label for="id_old_password"></label>
-                <input type="password" name="old_password" placeholder="Stare hasło" required id="id_old_password" >
+        <div class="grid-profile">
+            <div class="grid-profile-container">
+                <div class="header-form">
+                    <h3>Zmień hasło</h3>
+                </div>
 
-                <label for="id_new_password1"></label>
-                <input type="password" name="new_password1" placeholder="Nowe hasło" required id="id_new_password1">
+                <form class="settings-form" action="{% url 'password_change' %}" method="post" id="second-settings-form">
+                    {% csrf_token %}
+                    <div class="settings-form-control">
+                        <label for="id_old_password">Stare hasło*</label>
+                        <input type="password" name="old_password" placeholder="Stare hasło" id="id_old_password">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                        <small>Error message</small>
+                    </div>
 
-                <label for="id_new_password2"></label>
-                <input type="password" name="new_password2"  placeholder="Potwierdź hasło" required id="id_new_password2">
-                <button class="btn" type="submit">Zmień hasło</button>
-                {% for field in form_reset_password %}
-                    {% for error in field.errors %}
-                        <strong class="message-error">{{ error|escape }}</strong>
+                    <div class="settings-form-control">
+                        <label for="id_new_password1">Nowe hasło*</label>
+                        <input type="password" name="new_password1" placeholder="Nowe hasło" id="id_new_password1">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                        <small>Error message</small>
+                    </div>
+
+                    <div class="settings-form-control">
+                        <label for="id_new_password2">Potwierdź nowe hasło*</label>
+                        <input type="password" name="new_password2" placeholder="Potwierdź hasło"
+                               id="id_new_password2">
+                        <i class="fas fa-check-circle fa-2x"></i>
+                        <i class="fas fa-exclamation-circle fa-2x"></i>
+                        <small>Error message</small>
+                    </div>
+
+                    <button type="submit">Zmień hasło</button>
+                    {% for field in form_reset_password %}
+                        {% for error in field.errors %}
+                            <strong class="message-error">{{ error|escape }}</strong>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
 
-                {% include 'errors.html' %}
-            </form>
+                    {% include 'errors.html' %}
+                </form>
+            </div>
         </div>
-     </section>
+    </div>
+    <script src="{% static '/js/profile-settings-form.js' %}"></script>
 {% endblock %}

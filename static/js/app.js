@@ -389,10 +389,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // After password is changed, wait 3sec and move to the main site
-    let currentLocation = window.location.href;
-    if (currentLocation === 'http://127.0.0.1:8000/password/change/done/'){
+    let currentLocation = window.location.pathname;  // '/password/change/done/'
+    if (currentLocation === '/password/change/done/'){
         let tID = setTimeout(function () {
-            window.location.href = "http://127.0.0.1:8000";
+            window.location.origin;     // "http://localhost:8000"
             window.clearTimeout(tID);		// clear time out.
         }, 3000);
     }

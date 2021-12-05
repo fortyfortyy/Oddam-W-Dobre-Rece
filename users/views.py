@@ -73,8 +73,8 @@ class ActivateAccountView(View):
             finally:
                 del profile._sendwelcomemessage
 
-            login(request, profile)
             messages.success(request, "Twoje konto zostało pomyślnie aktywowane!")
+            login(request, profile)
             return render(request, self.template_class, self.context)
         messages.error(request, "Twoje konto już jest aktywne!")
         return render(request, self.template_class, self.context)
