@@ -7,7 +7,7 @@ from users.models import Profile
 
 class CustomUserCreationForm(UserCreationForm):
     error_messages = {
-        'password_mismatch': _("Twoje hasła nie zgadzają się ze sobą."),
+        'password_mismatch': _("Twoje hasła nie zgadzają się ze sobą"),
         # 'password_too_common': _("Hasło jest zbyt popularne. Proszę podać nowe hasło."),
         'email_exists': _("Email %(email)s jest używany. Czy chcesz się zalogować?"),
     }
@@ -18,37 +18,37 @@ class CustomUserCreationForm(UserCreationForm):
         field_args = {
             "first_name": {
                 "error_messages": {
-                    "invalid": _("Proszę podać poprawne imię."),
+                    "invalid": _("Proszę podać poprawne imię"),
                     "required": _("Pole 'Imię' jest wymagane"),
-                    "max_length": _("Imię jest za długie. Maksymalnie możesz użyć do 150 znaków."),
+                    "max_length": _("Imię jest za długie. Maksymalnie możesz użyć do 150 znaków"),
                 }
             },
             "last_name": {
                 "error_messages": {
-                    "invalid": _("Proszę podać poprawne nazwisko."),
-                    "required": _("Pole 'Nazwisko' jest wymagane."),
-                    "max_length": _("Nazwisko jest za długie. Maksymalnie możesz użyć do 150 znaków."),
+                    "invalid": _("Proszę podać poprawne nazwisko"),
+                    "required": _("Pole 'Nazwisko' jest wymagane"),
+                    "max_length": _("Nazwisko jest za długie. Maksymalnie możesz użyć do 150 znaków"),
                 },
             },
             "email": {
                 "error_messages": {
-                    "invalid": _("Proszę podać poprawny adres email."),
-                    "required": _("Pole 'Email' jest wymagane."),
-                    "max_length": _("Email jest za długi. Maksymalnie możesz użyć do 255 znaków."),
+                    "invalid": _("Proszę podać poprawny adres email"),
+                    "required": _("Pole 'Email' jest wymagane"),
+                    "max_length": _("Email jest za długi. Maksymalnie możesz użyć do 255 znaków"),
                 },
             },
             "password1": {
                 "error_messages": {
-                    "invalid": _("Proszę podać poprawne pierwsze hasło."),
+                    "invalid": _("Proszę podać poprawne pierwsze hasło"),
                     "required": _("Pole 'Hasło' jest wymagane"),
-                    "max_length": _("Długość hasła może wynosić do 128 znaków."),
+                    "max_length": _("Długość hasła może wynosić do 128 znaków"),
                 },
             },
             "password2": {
                 "error_messages": {
-                    "invalid": _("Proszę podać poprawne drugie hasło."),
+                    "invalid": _("Proszę podać poprawne drugie hasło"),
                     "required": _("Pole 'Powtórz hasło' jest wymagane"),
-                    "max_length": _("Długość hasła może wynosić do 128 znaków."),
+                    "max_length": _("Długość hasła może wynosić do 128 znaków"),
                 },
             }
         }
@@ -106,9 +106,9 @@ class CustomUserCreationForm(UserCreationForm):
 
 class LoginForm(forms.Form):
     my_default_errors = {
-        "required": _("Pole 'Email' jest wymagane."),
-        "invalid": _("Proszę podać poprawny adres email."),
-        "max_length": _("Email jest za długi. Maksymalnie możesz użyć do 255 znaków."),
+        "required": _("Pole 'Email' jest wymagane"),
+        "invalid": _("Proszę podać poprawny adres email"),
+        "max_length": _("Email jest za długi. Maksymalnie możesz użyć do 255 znaków"),
     }
 
     email = forms.CharField(label='Email', max_length=255, error_messages=my_default_errors,
@@ -138,15 +138,15 @@ class ProfileEditForm(forms.ModelForm):
         super(ProfileEditForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].error_messages = {
             "required": _("Pole 'Imię' jest wymagane"),
-            "max_length": _("Imię jest za długie. Maksymalnie możesz użyć do 150 znaków."),
+            "max_length": _("Imię jest za długie. Maksymalnie możesz użyć do 150 znaków"),
         }
         self.fields['last_name'].error_messages = {
             "required": _("Pole 'Nazwisko' jest wymagane"),
-            "max_length": _("Nazwisko jest za długie. Maksymalnie możesz użyć do 150 znaków."),
+            "max_length": _("Nazwisko jest za długie. Maksymalnie możesz użyć do 150 znaków"),
         }
         self.fields['email'].error_messages = {
             "required": _("Pole 'Email' jest wymagane"),
-            "max_length": _("Email jest za długi. Maksymalnie możesz użyć do 255 znaków."),
+            "max_length": _("Email jest za długi. Maksymalnie możesz użyć do 255 znaków"),
         }
 
     def clean_first_name(self):
