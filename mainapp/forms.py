@@ -15,12 +15,12 @@ class FooterForm(forms.Form):
     email_errors = {
         "required": _("Email jest wymagany"),
         "max_length": _("Email jest za długi. Maksymalnie możesz użyć do 100 znaków"),
-        "invalid": _("Proszę podać poprawny adres email."),
+        "invalid": _("Proszę podać poprawny adres email"),
     }
     message_errors = {
-        "required": _("Pole 'Wiadomość' jest wymagane."),
+        "required": _("Pole 'Wiadomość' jest wymagane"),
         "max_length": _("Wiadomość jest za długie. Maksymalnie możesz użyć do 1000 znaków"),
-        "invalid": _("Proszę wprowadź wiadomość."),
+        "invalid": _("Proszę wprowadź wiadomość"),
     }
 
     name = forms.CharField(max_length=100, error_messages=name_errors, widget=forms.TextInput(attrs={
@@ -71,7 +71,7 @@ class DonationForm(forms.ModelForm):
         }
         self.fields['address'].error_messages = {
             "required": _("Adres jest wymagany"),
-            "max_length": _("Adres jest za długi. Maksymalnie możesz użyć do 200 znaków."),
+            "max_length": _("Adres jest za długi. Maksymalnie możesz użyć do 200 znaków"),
             "invalid": _("Proszę o podanie prawidłowego adresu"),
         }
         self.fields['phone_number'].error_messages = {
@@ -108,7 +108,7 @@ class DonationForm(forms.ModelForm):
             "invalid": _("Proszę o podanie prawidłowej godziny"),
         }
         self.fields['pick_up_comment'].error_messages = {
-            "max_length": _("Komentarz jest za długi. Maksymalnie możesz użyć do 500 znaków."),
+            "max_length": _("Komentarz jest za długi. Maksymalnie możesz użyć do 500 znaków"),
         }
         # # Phone number validator
         # PHONE_REGEX = RegexValidator(r'^(\+\d{1,2})?\d{9}$', "Numer telefonu musi mieć format +XXXXXXXXXXX")
@@ -135,7 +135,7 @@ class DonationForm(forms.ModelForm):
         try:
             institution = Institution.objects.get(pk=institution.pk)
         except Institution.DoesNotExist:
-            raise ValidationError(_("Proszę wybrać poprawną instytucję."))
+            raise ValidationError(_("Proszę wybrać poprawną instytucję"))
         return institution
 
     def clean_categories(self):
@@ -144,5 +144,5 @@ class DonationForm(forms.ModelForm):
             try:
                 category = Category.objects.get(pk=category.pk)
             except Category.DoesNotExist:
-                raise ValidationError(_("Proszę wybrać poprawną kategorię."))
+                raise ValidationError(_("Proszę wybrać poprawną kategorię"))
         return categories
