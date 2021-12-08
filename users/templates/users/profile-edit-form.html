@@ -14,7 +14,8 @@
                     <h3>Zmień Dane</h3>
                 </div>
 
-                <form class="settings-form" method="post" id="first-settings-form">
+                <form action="{% url 'profile-edit' request.user.pk %}" class="settings-form" method="post"
+                      id="first-settings-form">
                     {% csrf_token %}
                     <div class="settings-form-control">
                         <label for="id_first_name">Imię*</label>
@@ -55,13 +56,19 @@
 
                     <button type="submit">Zaaktualizuj dane</button>
 
-                    {% for field in form_edit_profile %}
-                        {% for error in field.errors %}
-                            <strong class="message-error">{{ error|escape }}</strong>
+                    <div class="form-settings-data-errors">
+                        {% for field in form_edit_profile %}
+                            {% for error in field.errors %}
+                                <div>
+                                    <p data-input-error>{{ field.name }}</p>
+                                    <p data-message-error>{{ error|escape }}</p>
+                                </div>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
-
-                    {% include 'errors.html' %}
+                        <div data-error-password>
+                            {{ form_edit_profile.errors.password }}
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -71,7 +78,8 @@
                     <h3>Zmień hasło</h3>
                 </div>
 
-                <form class="settings-form" action="{% url 'password_change' %}" method="post" id="second-settings-form">
+                <form class="settings-form" action="{% url 'password_change' %}" method="post"
+                      id="second-settings-form">
                     {% csrf_token %}
                     <div class="settings-form-control">
                         <label for="id_old_password">Stare hasło*</label>
@@ -99,12 +107,20 @@
                     </div>
 
                     <button type="submit">Zmień hasło</button>
-                    {% for field in form_reset_password %}
-                        {% for error in field.errors %}
-                            <strong class="message-error">{{ error|escape }}</strong>
-                        {% endfor %}
-                    {% endfor %}
 
+                    <div class="form-settings-data-errors">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div>
+                                    <p data-input-error>{{ field.name }}</p>
+                                    <p data-message-error>{{ error|escape }}</p>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        <div data-error-password>
+                            {{ form_reset_password.errors.password }}
+                        </div>
+                    </div>
                     {% include 'errors.html' %}
                 </form>
             </div>
