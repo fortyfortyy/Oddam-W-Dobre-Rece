@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
     <header class="header--form-page">
@@ -235,5 +236,5 @@
             </form>
         </div>
     </section>
-
+    <script src="{% static 'js/app.js' %}"></script>
 {% endblock %}

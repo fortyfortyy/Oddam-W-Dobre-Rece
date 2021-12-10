@@ -7,6 +7,7 @@ from django.views import View
 
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django.forms.utils import ErrorList
 
 from mainapp.models import Donation
 from project import settings
@@ -184,6 +185,7 @@ class ProfileEditView(LoginRequiredMixin, View):
             if profile.check_password(password):
                 form_edit_profile.save()
                 return redirect('profile-edit', profile.pk)
-            messages.error(request, "Podane hasło jest niepoprawne.")
+            errors = form_edit_profile._errors.setdefault("password", ErrorList())
+            errors.append(u"Podane hasło jest niepoprawne")
         self.context['form_edit_profile'] = form_edit_profile
         return render(request, self.template_class, self.context)

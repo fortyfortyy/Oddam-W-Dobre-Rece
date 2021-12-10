@@ -9,49 +9,63 @@
     </header>
 
     <div class="main-grid">
-        <div id="grid-profile">
-            <div class="header-form">
-                <h3>Twoje Dane</h3>
+        <div class="animate glow delay-1">
+            <div class="shadow-drop-2-tl">
+                <div id="grid-profile">
+                    <div class="header-form">
+                        <h3>Twoje Dane</h3>
+                    </div>
+                    <h3>Imię: {{ profile.first_name|title }}</h3>
+                    <h3>Nazwisko: {{ profile.last_name|title }}</h3>
+                    <h3>Email: {{ profile.email }}</h3>
+                </div>
             </div>
-            <h3>Imię: {{ profile.first_name|title }}</h3>
-            <h3>Nazwisko: {{ profile.last_name|title }}</h3>
-            <h3>Email: {{ profile.email }}</h3>
         </div>
-
         <div id="grid-donations">
             {% if donations.count > 0 %}
-                <div class="grid-donations-title">
-                    <h3>Lista przekazanych darów</h3>
+                <div class="animate glow delay-1">
+                    <div class="grid-donations-title">
+                        <h3>Lista przekazanych darów</h3>
+                    </div>
                 </div>
                 <div class="donations">
                 {% for donation in donations %}
                     {% if not donation.is_taken %}
-                        <div class="donation not-taken">
-                            <div class="donation-summary">
-                                <div>Worki: {{ donation.quantity }}</div>
-                                <div>Organizacja: {{ donation.institution }}</div>
-                                <div>Kategorie: {% for category in donation.categories.all %}{{ category }}, {% endfor %}</div>
-                                <div>Będą zabrane: {{ donation.pick_up_date }} o {{ donation.pick_up_time }}</div>
+                        <div class="animate glow delay-1">
+                            <div class="donation not-taken">
+                                <div class="donation-heading not-taken"><h1>Nie zabrane</h1></div>
+                                <div class="donation-summary">
+                                    <div>Worki: {{ donation.quantity }}</div>
+                                    <div>Organizacja: {{ donation.institution }}</div>
+                                    <div>Kategorie:
+                                        {% for category in donation.categories.all %}{{ category }}, {% endfor %}</div>
+                                    <div>Będą zabrane: {{ donation.pick_up_date }} o {{ donation.pick_up_time }}</div>
+                                </div>
+                                <form method="post" action="{% url 'profile' request.user %}" id="jsTaken">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="donation_pk" value="{{ donation.pk }}">
+                                    <button class="donation-button" type="submit">Zabrane</button>
+                                </form>
                             </div>
-                            <form method="post" action="{% url 'profile' request.user %}" id="jsTaken">
-                                {% csrf_token %}
-                                <input type="hidden" name="donation_pk" value="{{ donation.pk }}">
-                                <button class="donation-button" type="submit">Zabrane</button>
-                            </form>
                         </div>
                     {% else %}
-                        <div class="donation taken">
-                            <div class="donation-summary">
-                                <div>Worki: {{ donation.quantity }}</div>
-                                <div>Organizacja: {{ donation.institution }}</div>
-                                <div>Kategorie: {% for category in donation.categories.all %}{{ category }}, {% endfor %}</div>
-                                <div>Zostały zabrane: {{ donation.pick_up_date }} o {{ donation.pick_up_time }}</div>
+                        <div class="animate glow delay-1">
+                            <div class="donation taken">
+                                <div class="donation-heading taken"><h1>Zabrane</h1></div>
+                                <div class="donation-summary">
+                                    <div>Worki: {{ donation.quantity }}</div>
+                                    <div>Organizacja: {{ donation.institution }}</div>
+                                    <div>Kategorie:
+                                        {% for category in donation.categories.all %}{{ category }}, {% endfor %}</div>
+                                    <div>Zostały zabrane: {{ donation.pick_up_date }}
+                                        o {{ donation.pick_up_time }}</div>
+                                </div>
+                                <form method="post" action="{% url 'profile' request.user %}" id="jsNotTaken">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="donation_pk" value="{{ donation.pk }}">
+                                    <button class="donation-button" type="submit">Niezabrane</button>
+                                </form>
                             </div>
-                            <form method="post" action="{% url 'profile' request.user %}" id="jsNotTaken">
-                                {% csrf_token %}
-                                <input type="hidden" name="donation_pk" value="{{ donation.pk }}">
-                                <button class="donation-button" type="submit">Niezabrane</button>
-                            </form>
                         </div>
 
                     {% endif %}

@@ -52,9 +52,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (el.dataset.id === this.currentSlide) {
                     el.classList.add("active");
+                    this._formatText(el);
                 }
             });
+
         }
+
+        // delete last comma from categories
+        _formatText(el) {
+            el.querySelectorAll("li > div .text").forEach(el => {
+                el.innerText = el.innerText.replace(/,\s*$/, "");
+            })
+        }
+
 
         /**
          * TODO: callback to page change event
@@ -143,10 +153,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".form-group--dropdown select").forEach(el => {
         new FormSelect(el);
     });
-
-    //     let testForm = document.querySelector(".form-group--dropdown")
-    // new FormSelect(testForm);
-    // console.log(testForm)
     /**
      * Hide elements when clicked on document
      */
@@ -373,10 +379,10 @@ document.addEventListener("DOMContentLoaded", function () {
             this.events();
         }
 
-        events(){
+        events() {
             let footer_form = this.$el;
             let messageError = footer_form.querySelector('.message-error');
-            if (messageError){
+            if (messageError) {
                 document.getElementById("contact").scrollIntoView({behavior: 'smooth'});
             }
         }
@@ -390,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // After password is changed, wait 3sec and move to the main site
     let currentLocation = window.location.pathname;  // '/password/change/done/'
-    if (currentLocation === '/password/change/done/'){
+    if (currentLocation === '/password/change/done/') {
         let tID = setTimeout(function () {
             window.location.origin;     // "http://localhost:8000"
             window.clearTimeout(tID);		// clear time out.

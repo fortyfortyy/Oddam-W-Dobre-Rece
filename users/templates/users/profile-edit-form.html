@@ -6,123 +6,125 @@
             {% include 'navbar.html' %}
         </nav>
     </header>
-    <div class="grid-wrapper">
-        <div class="grid-profile">
+    <div class="animate glow delay-1">
+        <div class="grid-wrapper">
+            <div class="grid-profile">
 
-            <div class="grid-profile-container">
-                <div class="header-form">
-                    <h3>Zmień Dane</h3>
-                </div>
-
-                <form action="{% url 'profile-edit' request.user.pk %}" class="settings-form" method="post"
-                      id="first-settings-form">
-                    {% csrf_token %}
-                    <div class="settings-form-control">
-                        <label for="id_first_name">Imię*</label>
-                        <input id="id_first_name" placeholder="Imię" type="text" name="first_name" maxlength="150"
-                               value="{{ form_edit_profile.first_name.value|default_if_none:'' }}">
-                        <i class="fas fa-check-circle fa-2x"></i>
-                        <i class="fas fa-exclamation-circle fa-2x"></i>
-                        <small>Error message</small>
+                <div class="grid-profile-container">
+                    <div class="header-form">
+                        <h3>Zmień Dane</h3>
                     </div>
 
-                    <div class="settings-form-control">
-                        <label for="id_last_name">Nazwisko*</label>
-                        <input id="id_last_name" placeholder="Nazwisko" type="text" name="last_name" maxlength="150"
-                               value="{{ form_edit_profile.last_name.value|default_if_none:'' }}">
-                        <i class="fas fa-check-circle fa-2x"></i>
-                        <i class="fas fa-exclamation-circle fa-2x"></i>
-                        <small>Error message</small>
-                    </div>
-
-                    <div class="settings-form-control">
-                        <label for="id_email">Email*</label>
-                        <input id="id_email" placeholder="Email" type="email" name="email" maxlength="255"
-                               value="{{ form_edit_profile.email.value|default_if_none:'' }}">
-                        <i class="fas fa-check-circle fa-2x"></i>
-                        <i class="fas fa-exclamation-circle fa-2x"></i>
-                        <small>Error message</small>
-                    </div>
-
-                    <div class="settings-form-control">
-                        <label for="id_password">Podaj swoje hasło do zatwierdzenia danych*</label>
-                        <input id="id_password" type="password" name="password"
-                               placeholder="Hasło">
-
-                        <i class="fas fa-check-circle fa-2x"></i>
-                        <i class="fas fa-exclamation-circle fa-2x"></i>
-                        <small>Error message</small>
-                    </div>
-
-                    <button type="submit">Zaaktualizuj dane</button>
-
-                    <div class="form-settings-data-errors">
-                        {% for field in form_edit_profile %}
-                            {% for error in field.errors %}
-                                <div>
-                                    <p data-input-error>{{ field.name }}</p>
-                                    <p data-message-error>{{ error|escape }}</p>
-                                </div>
-                            {% endfor %}
-                        {% endfor %}
-                        <div data-error-password>
-                            {{ form_edit_profile.errors.password }}
+                    <form action="{% url 'profile-edit' request.user.pk %}" class="settings-form" method="post"
+                          id="first-settings-form">
+                        {% csrf_token %}
+                        <div class="settings-form-control">
+                            <label for="id_first_name">Imię*</label>
+                            <input id="id_first_name" placeholder="Imię" type="text" name="first_name" maxlength="150"
+                                   value="{{ form_edit_profile.first_name.value|default_if_none:'' }}">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
                         </div>
-                    </div>
-                </form>
+
+                        <div class="settings-form-control">
+                            <label for="id_last_name">Nazwisko*</label>
+                            <input id="id_last_name" placeholder="Nazwisko" type="text" name="last_name" maxlength="150"
+                                   value="{{ form_edit_profile.last_name.value|default_if_none:'' }}">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
+                        </div>
+
+                        <div class="settings-form-control">
+                            <label for="id_email">Email*</label>
+                            <input id="id_email" placeholder="Email" type="email" name="email" maxlength="255"
+                                   value="{{ form_edit_profile.email.value|default_if_none:'' }}">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
+                        </div>
+
+                        <div class="settings-form-control">
+                            <label for="id_password">Podaj swoje hasło do zatwierdzenia danych*</label>
+                            <input id="id_password" type="password" name="password"
+                                   placeholder="Hasło">
+
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
+                        </div>
+
+                        <button type="submit">Zaaktualizuj dane</button>
+
+                        <div class="form-settings-data-errors">
+                            {% for field in form_edit_profile %}
+                                {% for error in field.errors %}
+                                    <div>
+                                        <p data-input-error>{{ field.name }}</p>
+                                        <p data-message-error>{{ error|escape }}</p>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            <div data-error-password>
+                                {{ form_edit_profile.errors.password }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-        <div class="grid-profile">
-            <div class="grid-profile-container">
-                <div class="header-form">
-                    <h3>Zmień hasło</h3>
-                </div>
-
-                <form class="settings-form" action="{% url 'password_change' %}" method="post"
-                      id="second-settings-form">
-                    {% csrf_token %}
-                    <div class="settings-form-control">
-                        <label for="id_old_password">Stare hasło*</label>
-                        <input type="password" name="old_password" placeholder="Stare hasło" id="id_old_password">
-                        <i class="fas fa-check-circle fa-2x"></i>
-                        <i class="fas fa-exclamation-circle fa-2x"></i>
-                        <small>Error message</small>
+            <div class="grid-profile">
+                <div class="grid-profile-container">
+                    <div class="header-form">
+                        <h3>Zmień hasło</h3>
                     </div>
 
-                    <div class="settings-form-control">
-                        <label for="id_new_password1">Nowe hasło*</label>
-                        <input type="password" name="new_password1" placeholder="Nowe hasło" id="id_new_password1">
-                        <i class="fas fa-check-circle fa-2x"></i>
-                        <i class="fas fa-exclamation-circle fa-2x"></i>
-                        <small>Error message</small>
-                    </div>
-
-                    <div class="settings-form-control">
-                        <label for="id_new_password2">Potwierdź nowe hasło*</label>
-                        <input type="password" name="new_password2" placeholder="Potwierdź hasło"
-                               id="id_new_password2">
-                        <i class="fas fa-check-circle fa-2x"></i>
-                        <i class="fas fa-exclamation-circle fa-2x"></i>
-                        <small>Error message</small>
-                    </div>
-
-                    <button type="submit">Zmień hasło</button>
-
-                    <div class="form-settings-data-errors">
-                        {% for field in form %}
-                            {% for error in field.errors %}
-                                <div>
-                                    <p data-input-error>{{ field.name }}</p>
-                                    <p data-message-error>{{ error|escape }}</p>
-                                </div>
-                            {% endfor %}
-                        {% endfor %}
-                        <div data-error-password>
-                            {{ form_reset_password.errors.password }}
+                    <form class="settings-form" action="{% url 'password_change' %}" method="post"
+                          id="second-settings-form">
+                        {% csrf_token %}
+                        <div class="settings-form-control">
+                            <label for="id_old_password">Stare hasło*</label>
+                            <input type="password" name="old_password" placeholder="Stare hasło" id="id_old_password">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
                         </div>
-                    </div>
-                    {% include 'errors.html' %}
-                </form>
+
+                        <div class="settings-form-control">
+                            <label for="id_new_password1">Nowe hasło*</label>
+                            <input type="password" name="new_password1" placeholder="Nowe hasło" id="id_new_password1">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
+                        </div>
+
+                        <div class="settings-form-control">
+                            <label for="id_new_password2">Potwierdź nowe hasło*</label>
+                            <input type="password" name="new_password2" placeholder="Potwierdź hasło"
+                                   id="id_new_password2">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
+                        </div>
+
+                        <button type="submit">Zmień hasło</button>
+
+                        <div class="form-settings-data-errors">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <div>
+                                        <p data-input-error>{{ field.name }}</p>
+                                        <p data-message-error>{{ error|escape }}</p>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            <div data-error-password>
+                                {{ form_reset_password.errors.password }}
+                            </div>
+                        </div>
+                        {% include 'errors.html' %}
+                    </form>
+                </div>
             </div>
         </div>
     </div>
