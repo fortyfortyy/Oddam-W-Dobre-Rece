@@ -2,13 +2,13 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 from django.utils.translation import ugettext_lazy as _
+
 from users.models import Profile
 
 
 class CustomUserCreationForm(UserCreationForm):
     error_messages = {
         'password_mismatch': _("Twoje hasła nie zgadzają się ze sobą"),
-        # 'password_too_common': _("Hasło jest zbyt popularne. Proszę podać nowe hasło."),
         'email_exists': _("Email %(email)s jest używany. Czy chcesz się zalogować?"),
     }
 
