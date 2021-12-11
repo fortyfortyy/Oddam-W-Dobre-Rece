@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const firstSettingForm = document.getElementById('first-settings-form');
 
     // check all fields in inputs and eventually set the success or error class
-    for (let step = 0; step < 1; step++){
+    for (let step = 0; step < 1; step++) {
         firstSettingForm.querySelectorAll("div > input").forEach(input => {
             checkInputFirstForm(input);
         })
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const secondSettingForm = document.getElementById('second-settings-form');
 
     // check all fields in inputs and eventually set the success or error class
-    for (let step = 0; step < 1; step++){
+    for (let step = 0; step < 1; step++) {
         secondSettingForm.querySelectorAll("div > input").forEach(input => {
             checkInputFirstForm(input);
         })
@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', function () {
 // check if the input is NodeList or EventInput
     function checkKindOfInput(input, form) {
         // EventInput has isTrusted atr
-        console.log(input);
         if (input.isTrusted) return form.querySelector(`input[name=${input.target.name}]`)
         return input
     }
@@ -185,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function isEmail(email) {
         return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
     }
-
+// check if password is valid and has at least 1 upper letter and min 8 letters and special sign
     function isvalidPassword(password) {
         return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
     }
