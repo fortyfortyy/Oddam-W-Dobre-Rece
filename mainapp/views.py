@@ -1,13 +1,13 @@
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import EmailMessage
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.views import View
+
 from mainapp.models import Institution, Donation, Category
 from mainapp.forms import FooterForm, DonationForm
-from django.contrib import messages
-
-from django.core.mail import EmailMessage
 
 
 class LandingPageView(View):
@@ -38,7 +38,7 @@ class LandingPageView(View):
 
     def post(self, request, *args, **kwargs):
         """
-        Handles the contact form and send an email to the staff
+        Handles the contact form and email the staff
         """
         form = self.footer_form(request.POST)
         if form.is_valid():
