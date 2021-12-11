@@ -14,27 +14,37 @@
 
         {% include 'errors.html' %}
 
-        <form method="post">
+        <form method="post" id="registration-form">
             {% csrf_token %}
+
+
             <div class="form-group">
-                <input type="text" name="first_name" placeholder="Imię" maxlength="150" value="{{ registration_form.first_name.value|default_if_none:'' }}"/>
+                <input type="text" name="first_name" placeholder="Imię" maxlength="150"
+                       value="{{ registration_form.first_name.value|default_if_none:'' }}"/>
             </div>
             <div class="form-group">
-                <input type="text" name="last_name" placeholder="Nazwisko" maxlength="150" value="{{ registration_form.last_name.value|default_if_none:'' }}"/>
+                <input type="text" name="last_name" placeholder="Nazwisko" maxlength="150"
+                       value="{{ registration_form.last_name.value|default_if_none:'' }}"/>
             </div>
             <div class="form-group">
-                <input type="email" name="email" placeholder="Email" maxlength="255" value="{{ registration_form.email.value|default_if_none:'' }}"/>
+                <input type="email" name="email" placeholder="Email" maxlength="255"
+                       value="{{ registration_form.email.value|default_if_none:'' }}"/>
             </div>
             <div class="form-group">
-                <input type="password" name="password1" placeholder="Hasło" maxlength="128" value="{{ registration_form.password1.value|default_if_none:'' }}"/>
+                <input type="password" name="password1" placeholder="Hasło" maxlength="128"
+                       value="{{ registration_form.password1.value|default_if_none:'' }}"/>
             </div>
             <div class="form-group">
-                <input type="password" name="password2" placeholder="Powtórz hasło" maxlength="128" value="{{ registration_form.password2.value|default_if_none:'' }}"/>
+                <input type="password" name="password2" placeholder="Powtórz hasło" maxlength="128"
+                       value="{{ registration_form.password2.value|default_if_none:'' }}"/>
             </div>
 
             {% for field in registration_form %}
                 {% for error in field.errors %}
-                    <strong class="message-error">{{ error|escape }}</strong>
+                    <div class="registration-form-errors">
+                        <div data-field-name>{{ field.name }}</div>
+                        <div data-field-error>{{ error|escape }}</div>
+                    </div>
                 {% endfor %}
             {% endfor %}
 
@@ -44,5 +54,6 @@
             </div>
         </form>
     </section>
+    <script src="{% static '/js/login-register.js' %}"></script>
 {% endblock %}
 
