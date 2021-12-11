@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 
     <header>
@@ -14,25 +15,23 @@
 
         {% include 'errors.html' %}
 
-        <form method="post">
+        <form method="post" id="login-form">
             {% csrf_token %}
-            <div class="form-group">
-                <input type="email" name="email" maxlength="255" value="{{ login_form.email.value|default_if_none:'' }}" placeholder="Email"/>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" maxlength="128" placeholder="Hasło"/>
-                <a href="#" class="btn btn--small btn--without-border reset-password">Zresetuj hasło</a>
-            </div>
             {% for field in login_form %}
-                {% for error in field.errors %}
-                    <strong class="message-error">{{ error|escape }}</strong>
-                {% endfor %}
+                <div class="form-group">
+                    {{ field }}
+                    {% for error in field.errors %}
+                        <div class="requirements message-error">{{ error|escape }}</div>
+                    {% endfor %}
+                </div>
             {% endfor %}
-
+            <div class="form-group"><a href="#" class="btn btn--without-border reset-password">Zresetuj hasło</a></div>
             <div class="form-group form-group--buttons">
                 <a href="{% url 'register' %}" class="btn btn--without-border">Załóż konto</a>
                 <button class="btn" type="submit">Zaloguj się</button>
             </div>
+
         </form>
     </section>
+    <script src="{% static '/js/login-register.js' %}"></script>
 {% endblock %}
