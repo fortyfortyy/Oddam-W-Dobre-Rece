@@ -1,34 +1,58 @@
 {% extends 'base.html' %}
 {% block content %}
 
-    <form method="post">
-        {% csrf_token %}
+    <div class="site-focus-in">
 
-        {% include 'errors.html' %}
+        <header>
+            <nav class="container container--70">
+                {% include 'navbar.html' %}
+            </nav>
+        </header>
 
-        <h2 class="text-center">Wprowadź nowe hasło</h2>
-           <p>
-               Prosimy podać dwa razy nowe hasło. Dzięki temu będziemy mogli je zweryfikować.
-           </p>
-        <label class="" for="id_new_password1">
-            <input name="new_password1" class="form-control" placeholder="Nowe hasło"
-                   type="password" id="id_new_password1" required>
-        </label>
-        <label for="id_new_password2">
-            <input name="new_password2" class="form-control" placeholder="Powtórz hasło"
-                   type="password" id="id_new_password2" required>
-        </label>
+        <div class="password-resent-done">
+            <div class="password-resent-done-container">
+                <form method="post" class="settings-form">
+                    {% csrf_token %}
 
-        {% for field in form %}
-            {% for error in field.errors %}
-                <strong class="message-error">{{ error|escape }}</strong>
-            {% endfor %}
-        {% endfor %}
+                    <h2 class="text-center">Wprowadź nowe hasło</h2>
 
-        <button class="btn btn-success m-1" id="add-tags-form" type="submit">
-            Change password
-        </button>
-    </form>
+                    <div class="settings-form-control">
+                        <label class="" for="id_new_password1">
+                            <input name="new_password1" class="form-control" placeholder="Nowe hasło"
+                                   type="password" id="id_new_password1">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
+                        </label>
+                    </div>
 
+                    <div class="settings-form-control">
+                        <label for="id_new_password2">
+                            <input name="new_password2" class="form-control" placeholder="Powtórz hasło"
+                                   type="password" id="id_new_password2">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                            <i class="fas fa-exclamation-circle fa-2x"></i>
+                            <small>Error message</small>
+                        </label>
+                    </div>
+                    <div class="password-resent-done-container-button">
+                        <button type="submit">Potwierdź</button>
+                    </div>
+
+                    {#                    <div class="form-settings-data-errors">#}
+                    {#                        {% for field in form_edit_profile %}#}
+                    {#                            {% for error in field.errors %}#}
+                    {#                                <div>#}
+                    {#                                    <p data-input-error>{{ field.name }}</p>#}
+                    {#                                    <p data-message-error>{{ error|escape }}</p>#}
+                    {#                                </div>#}
+                    {#                            {% endfor %}#}
+                    {#                        {% endfor %}#}
+                    {#                    </div>#}
+                </form>
+            </div>
+        </div>
+
+    </div>
 
 {% endblock %}

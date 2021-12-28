@@ -209,16 +209,13 @@ document.addEventListener("DOMContentLoaded", function () {
             this.$next.forEach(btn => {
                 btn.addEventListener("click", e => {
                     e.preventDefault();
-                    this._getFormInputs(this.currentStep);
-                    // const nextStep = this._getFormInputs(this.currentStep);
-                    // if (nextStep){
-                    //     this.currentStep++;
-                    //     this._updateForm();
-                    // } else {
-                    //     // validation error rise to choose at least 1 element
-                    // }
-                    this.currentStep++;
-                    this._updateForm();
+                    let result = this._getFormInputs(this.currentStep);
+
+                    // if data-step inputs are valid return true and go to the next step
+                    if (result) {
+                        this.currentStep++;
+                        this._updateForm();
+                    }
                 });
             });
 
@@ -254,10 +251,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 if (firstStepResult.length > 0) {
                     this.result['firstStepResult'] = firstStepResult;
-                    // return true;
+                    return true;
                 } else {
                     delete this.result.firstStepResult;
-                    // return false;
+                    this._setErrorFor(step, "Proszę wybrać przynajmniej jedną kategorię")
+                    return false
                 }
             }
 
@@ -268,36 +266,51 @@ document.addEventListener("DOMContentLoaded", function () {
                         'name': numberOfQuantity.name,
                         'value': numberOfQuantity.value,
                     };
+                    return true
                 } else {
                     delete this.result.secondStepResult;
+                    this._setErrorFor(step, "Proszę wybrać przynajmniej jeden worek")
+                    return false;
                 }
             }
 
             if (step === 3) {
                 let institution = document.querySelector("input[name='institution']:checked");
+                if (!institution) {
+                    this._setErrorFor(step, "Proszę wybrać przynajmniej jedną instytucje")
+                    return false;
+                }
                 let institutionName = institution.parentElement.querySelector(".title").innerHTML;
                 this.result['thirdStepResult'] = {
                     'name': institution.name,
                     'value': institution.value,
                     'institutionName': institutionName,
                 };
+                return true
             }
 
             if (step === 4) {
                 let divHelper = document.querySelector("#jsStepForth").querySelectorAll("input, textarea");
                 let forthStepResult = []
+                let goToTheNextStep = true;
                 divHelper.forEach(el => {
-                    forthStepResult.push({
-                        'name': el.name,
-                        'value': el.value,
-                    });
+                    if (el.value || el.name === 'pick_up_comment') {
+                        forthStepResult.push({
+                            'name': el.name,
+                            'value': el.value,
+                        });
+                    } else {
+                        this._setErrorFor(step, "Proszę uzupełnić wszystkie pola");
+                        goToTheNextStep = false
+                        return false;
+                    }
                 });
-                if (forthStepResult.length > 0) {
+                if (goToTheNextStep) {
                     this.result['forthStepResult'] = forthStepResult;
+                    return true;
                 } else {
                     delete this.result.forthStepResult;
                 }
-                console.log(this.result);
             }
         }
 
@@ -350,14 +363,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         /**
          * Submit form
-         *
-         * TODO: validation, send data to server
          */
         _submit(e) {
             e.preventDefault();
             this.currentStep++;
             this._updateForm();
             e.currentTarget.submit()
+        }
+
+        _setErrorFor(step, errorMessage) {
+            let inputError = document.querySelector('.form-group--dropdown').querySelector(`[data-step="${step}"] .inputError`)
+            inputError.classList.add('error');
+            inputError.querySelector('p').innerText = errorMessage;
         }
     }
 
@@ -395,8 +412,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // After password is changed, wait 3sec and move to the main site
-    let currentLocation = window.location.pathname;  // '/password/change/done/'
-    if (currentLocation === '/password/change/done/') {
+    let currentLocation = window.location.pathname;  // '/password/change/done/' 'password/reset/complete/'
+    if (currentLocation === '/password/change/done/' || currentLocation === '/password/reset/complete/') {
         let tID = setTimeout(function () {
             window.location.origin;     // "http://localhost:8000"
             window.clearTimeout(tID);		// clear time out.

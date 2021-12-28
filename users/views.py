@@ -5,7 +5,7 @@ from django.contrib.sites.models import Site
 from django.shortcuts import redirect, render
 from django.views import View
 
-from django.utils.encoding import force_text
+from django.utils.encoding import smart_str
 from django.utils.http import urlsafe_base64_decode
 from django.forms.utils import ErrorList
 
@@ -57,7 +57,7 @@ class ActivateAccountView(View):
 
     def get(self, request, *args, **kwargs):
         try:
-            uid = force_text(urlsafe_base64_decode(kwargs['uidb64']))
+            uid = smart_str(urlsafe_base64_decode(kwargs['uidb64']))
             profile = Profile.objects.get(pk=uid)
         except (TypeError, ValueError, OverflowError, KeyError, Profile.DoesNotExist):
             profile = None

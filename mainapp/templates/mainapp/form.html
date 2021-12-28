@@ -65,6 +65,9 @@
                 <!-- STEP 1: class .active is switching steps -->
                 <div data-step="1" class="active">
                     <h3>Zaznacz co chcesz oddać:</h3>
+                    <div class="inputError">
+                        <p>Error message</p>
+                    </div>
                     {% for category in categories %}
                         <div class="form-group form-group--checkbox">
                             <label>
@@ -95,7 +98,9 @@
                 <!-- STEP 2 -->
                 <div data-step="2">
                     <h3>Podaj liczbę 60l worków, w które spakowałeś/aś rzeczy:</h3>
-
+                    <div class="inputError">
+                        <p>Error message</p>
+                    </div>
                     <div class="form-group form-group--inline">
                         <label>
                             Liczba 60l worków:
@@ -113,6 +118,9 @@
                 <!-- STEP 3 -->
                 <div data-step="3">
                     <h3>Wybierz organizacje, której chcesz pomóc:</h3>
+                    <div class="inputError">
+                        <p>Error message</p>
+                    </div>
                     {% for institution in institutions %}
                         <div class="form-group form-group--checkbox">
                             <label>
@@ -137,6 +145,10 @@
                 <div data-step="4">
                     <h3>Podaj adres oraz termin odbioru rzecz przez kuriera:</h3>
 
+                    <div class="inputError">
+                        <p>Error message</p>
+                    </div>
+
                     <div class="form-section form-section--columns" id="jsStepForth">
                         <div class="form-section--column">
                             <h4>Adres odbioru</h4>
@@ -150,7 +162,8 @@
 
                             <div class="form-group form-group--inline">
                                 <label>
-                                    Kod pocztowy <input type="text" name="post_code" placeholder="XX-XXX" maxlength="6"/>
+                                    Kod pocztowy <input type="text" name="post_code" placeholder="XX-XXX"
+                                                        maxlength="6"/>
                                 </label>
                             </div>
 
@@ -169,7 +182,7 @@
                             </div>
 
                             <div class="form-group form-group--inline">
-                                <label> Godzina <input type="time" name="pick_up_time"/> </label>
+                                <label> Godzina <input type="time" name="pick_up_time" value="00:00:01"/> </label>
                             </div>
 
                             <div class="form-group form-group--inline">

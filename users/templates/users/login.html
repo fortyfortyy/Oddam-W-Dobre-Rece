@@ -25,10 +25,13 @@
                     {% endfor %}
                 </div>
             {% endfor %}
-            <div class="form-group"><a href="#" class="btn btn--without-border reset-password">Zresetuj hasło</a></div>
+
             <div class="form-group form-group--buttons">
                 <a href="{% url 'register' %}" class="btn btn--without-border">Załóż konto</a>
                 <button class="btn" type="submit">Zaloguj się</button>
+                <a href="{% url 'password_reset' %}" class="btn btn--without-border">
+                    Zresetuj hasło
+                </a>>
             </div>
 
         </form>
