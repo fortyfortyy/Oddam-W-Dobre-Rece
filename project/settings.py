@@ -88,21 +88,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'HOST': str(os.getenv('HOST')),
-#         'NAME': str(os.getenv('NAME')),
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'USER': str(os.getenv('USER_AWS')),
-#         'PASSWORD': str(os.getenv('PASSWORD_AWS')),
-#         'PORT': str(os.getenv('PORT')),
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'HOST': str(os.getenv('HOST')),
+        'NAME': str(os.getenv('NAME')),
+        'ENGINE': 'django.db.backends.postgresql',
+        'USER': str(os.getenv('USER_AWS')),
+        'PASSWORD': str(os.getenv('PASSWORD_AWS')),
+        'PORT': str(os.getenv('PORT')),
     }
 }
 
@@ -165,13 +158,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # User has access to bucket in S3 Amazone Service
-# DEFAULT_FILE_STORAGE = str(os.getenv('DEFAULT_FILE_STORAGE'))  # S3 service
-# AWS_ACCESS_KEY_ID = str(os.getenv('AWS_ACCESS_KEY_ID'))  # user
-# AWS_SECRET_ACCESS_KEY = str(os.getenv('AWS_SECRET_ACCESS_KEY'))  # password
-# AWS_STORAGE_BUCKET_NAME = str(os.getenv('AWS_STORAGE_BUCKET_NAME'))
-# AWS_QUERYSTRING_AUTH = False  # hide access key_id in url when gets an image
-# AWS_S3_FILE_OVERWRITE = False  # images with the same name will not overwrite each other
+DEFAULT_FILE_STORAGE = str(os.getenv('DEFAULT_FILE_STORAGE'))  # S3 service
+AWS_ACCESS_KEY_ID = str(os.getenv('AWS_ACCESS_KEY_ID'))  # user
+AWS_SECRET_ACCESS_KEY = str(os.getenv('AWS_SECRET_ACCESS_KEY'))  # password
+AWS_STORAGE_BUCKET_NAME = str(os.getenv('AWS_STORAGE_BUCKET_NAME'))
+AWS_QUERYSTRING_AUTH = False  # hide access key_id in url when gets an image
+AWS_S3_FILE_OVERWRITE = False  # images with the same name will not overwrite each other
 
 # Checks if the app is live on the server
-# if os.getcwd() == '/app':
-#     DEBUG = False
+if os.getcwd() == '/app':
+    DEBUG = False
