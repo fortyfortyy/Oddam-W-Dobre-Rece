@@ -15,11 +15,11 @@ from pathlib import Path
 # pip3 install python-dotenv
 # Used to retrieve secret keys from a file only I have access to
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -30,7 +30,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'oddamwdobrereceapp.herokuapp.com']
 AUTH_USER_MODEL = 'users.Profile'
 SITE_ID = 1
 PASSWORD_RESET_TIMEOUT = 86400  # reset token after 24 hours
@@ -46,7 +46,8 @@ INSTALLED_APPS = [
 
     'users.apps.UsersConfig',
     'mainapp.apps.MainappConfig',
-    'django.contrib.sites'
+    'django.contrib.sites',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -81,17 +82,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'HOST': '127.0.0.1',
-        'NAME': 'oddamwdobrerece',
+        'HOST': str(os.getenv('HOST')),
+        'NAME': str(os.getenv('NAME')),
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgresuser',
-        'PASSWORD': 'postgresuser',
+        'USER': str(os.getenv('USER')),
+        'PASSWORD': str(os.getenv('PASSWORD')),
+        'PORT': str(os.getenv('PORT')),
     }
 }
 
@@ -112,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -151,3 +151,15 @@ MEDIA_URL = '/images/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# User has access to bucket in S3 Amazone Service
+DEFAULT_FILE_STORAGE = str(os.getenv('DEFAULT_FILE_STORAGE'))  # S3 service
+AWS_ACCESS_KEY_ID = str(os.getenv('AWS_ACCESS_KEY_ID'))  # user
+AWS_SECRET_ACCESS_KEY = str(os.getenv('AWS_SECRET_ACCESS_KEY'))   # password
+AWS_STORAGE_BUCKET_NAME = str(os.getenv('AWS_STORAGE_BUCKET_NAME'))
+AWS_QUERYSTRING_AUTH = False  # hide access key_id in url when gets an image
+AWS_S3_FILE_OVERWRITE = False  # images with the same name will not overwrite each other
+
+# Checks if the app is live on the server
+if os.getcwd() == '/app':
+    DEBUG = False
