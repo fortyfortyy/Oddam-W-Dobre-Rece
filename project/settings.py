@@ -93,8 +93,8 @@ DATABASES = {
         'HOST': str(os.getenv('HOST')),
         'NAME': str(os.getenv('NAME')),
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': str(os.getenv('USER')),
-        'PASSWORD': str(os.getenv('PASSWORD')),
+        'USER': str(os.getenv('USER_AWS')),
+        'PASSWORD': str(os.getenv('PASSWORD_AWS')),
         'PORT': str(os.getenv('PORT')),
     }
 }
