@@ -31,12 +31,12 @@ urlpatterns = [
     path('password/change/done/', auth_views.PasswordChangeDoneView.as_view(
         template_name='password_reset/password_change_done.html',
         extra_context={'footer_disabled': True}),
-         name='password_change_done'),
+        name='password_change_done'),
 
     path('password/reset/', auth_views.PasswordResetView.as_view(
-        email_template_name='password_reset/password_reset_email.html',
-        template_name='password_reset/password_reset_form.html',
-        subject_template_name='password_reset/password_reset_subject.txt'),
+         email_template_name='password_reset/password_reset_email.html',
+         template_name='password_reset/password_reset_form.html',
+         subject_template_name='password_reset/password_reset_subject.txt'),
          name='password_reset'),
 
     path('password/reset/sent/',
@@ -44,7 +44,7 @@ urlpatterns = [
          name='password_reset_done'),
 
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(
-        template_name='password_reset/reset.html'),
+         template_name='password_reset/reset.html'),
          name='password_reset_confirm'),
 
     path('password/reset/complete/',
@@ -52,5 +52,7 @@ urlpatterns = [
          name='password_reset_complete'),
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
