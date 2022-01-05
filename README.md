@@ -20,7 +20,9 @@ mistrusted. You have to go to verified places,
 and the containers which are unverified and it is not known whether these things 
 will actually go to those in need
 	
-  
+![](demo/homepage.gif)
+![](demo/profile-settings.gif)
+![](demo/donation.gif)
 ## Technologies Used
 * Python 3.8
 * JavaScript
@@ -28,7 +30,6 @@ will actually go to those in need
 * PostgreSQL 2.9.2
 * HTML
 * CSS
-	
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Features
@@ -54,11 +55,7 @@ A few of the things you can do with Oddam w Dobre Rece:
   - support for forgotten passwords
   - validation of correct input of two identical passwords
   - handling the contact form
-
-
-<p align="center">
-  <img src = "https://trello.com/1/cards/615d9a9f0494712c6f369c6d/attachments/615d9aa10494712c6f369e9e/download/decoration.png" width=700>
-</p>
+  
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
