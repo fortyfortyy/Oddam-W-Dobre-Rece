@@ -90,12 +90,12 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'HOST': str(os.getenv('HOST')),
-        'NAME': str(os.getenv('NAME')),
+        'HOST': str(os.getenv('DB_HOST')),
+        'NAME': str(os.getenv('DB_NAME')),
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': str(os.getenv('USER_AWS')),
-        'PASSWORD': str(os.getenv('PASSWORD_AWS')),
-        'PORT': str(os.getenv('PORT')),
+        'USER': str(os.getenv('DB_USER')),
+        'PASSWORD': str(os.getenv('DB_PASSWORD')),
+        'PORT': str(os.getenv('DB_PORT')),
     }
 }
 
@@ -166,5 +166,5 @@ AWS_QUERYSTRING_AUTH = False  # hide access key_id in url when gets an image
 AWS_S3_FILE_OVERWRITE = False  # images with the same name will not overwrite each other
 
 # Checks if the app is live on the server
-# if os.getcwd() == '/app':
-#     DEBUG = False
+if os.getcwd() == '/app':
+    DEBUG = False
