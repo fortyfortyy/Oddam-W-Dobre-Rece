@@ -43,7 +43,7 @@
 
 .modal {
     position: fixed;
-    top: 50%;
+    top: 10%;
     left: 50%;
     max-width: 560px;
     min-width: 290px;
@@ -97,3 +97,6 @@
     color: darkgreen;
 }
 
+.modal-login-register {
+    top: 50%;
+}

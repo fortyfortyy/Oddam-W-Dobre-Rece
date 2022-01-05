@@ -1875,7 +1875,7 @@ footer .bottom-line--icons a img {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     min-width: 250px;
-    max-width: 500px;
+    max-width: 600px;
     color: #ebebeb;
     /*justify-self: center;*/
 }
@@ -1961,8 +1961,8 @@ footer .bottom-line--icons a img {
 
 .settings-form-control i {
     position: absolute;
-    top: 30px;
-    right: 10px;
+    top: 40px;
+    right: 8px;
     visibility: hidden;
 }
 
