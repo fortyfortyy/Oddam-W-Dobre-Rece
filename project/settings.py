@@ -166,5 +166,5 @@ AWS_QUERYSTRING_AUTH = False  # hide access key_id in url when gets an image
 AWS_S3_FILE_OVERWRITE = False  # images with the same name will not overwrite each other
 
 # Checks if the app is live on the server
-if os.getcwd() == '/app':
-    DEBUG = False
+# if os.getcwd() == '/app':
+#     DEBUG = False
