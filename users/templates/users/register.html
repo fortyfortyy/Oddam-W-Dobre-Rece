@@ -11,9 +11,6 @@
 
     <section class="login-page">
         <h2>Załóż konto</h2>
-
-        {% include 'errors.html' %}
-
         <form method="post" id="registration-form">
             {% csrf_token %}
 
@@ -54,6 +51,8 @@
             </div>
         </form>
     </section>
+
+     {% include 'errors.html' %}
     <script src="{% static '/js/login-register.js' %}"></script>
 {% endblock %}
 

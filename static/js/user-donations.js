@@ -1,32 +1,30 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    try {
-        const donationTakenForm = document.querySelector('#jsTaken');
-        donationTakenForm.addEventListener('submit', e => {
+    const donationTakenForm = document.querySelectorAll('#jsTaken');
+    donationTakenForm.forEach(form => {
+        form.addEventListener('submit', e => {
             e.preventDefault();
             let newInput = document.createElement('input');
             newInput.type = 'hidden';
             newInput.name = 'donation_taken';
             newInput.value = 'Zabrane';
-            donationTakenForm.appendChild(newInput);
-            donationTakenForm.submit();
+            form.appendChild(newInput);
+            form.submit();
         });
-    } catch (err) {
-    }
+    });
 
-    try {
-        const donationNotTakenForm = document.querySelector('#jsNotTaken');
-        donationNotTakenForm.addEventListener('submit', e => {
+    const donationNotTakenForm = document.querySelectorAll('#jsNotTaken');
+    donationNotTakenForm.forEach(form => {
+        form.addEventListener('submit', e => {
             e.preventDefault();
             let newInput = document.createElement('input');
             newInput.type = 'hidden';
             newInput.name = 'donation_not_taken';
             newInput.value = 'Niezabrane';
-            donationNotTakenForm.appendChild(newInput);
-            donationNotTakenForm.submit();
+            form.appendChild(newInput);
+            form.submit();
         });
-    } catch (err) {
-    }
+    });
 
 
     const donations = document.querySelectorAll(".donation");

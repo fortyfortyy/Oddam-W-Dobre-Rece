@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+    document.querySelector(".modal").classList.add('modal-login-register')
+
     let currentLocation = window.location.pathname;  // '/account/login/'
     if (currentLocation === '/account/login/') {
 
