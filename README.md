@@ -1,13 +1,15 @@
 <div id="top"></div>
+Live Project Link: https://oddamwdobrereceapp.herokuapp.com/
+
 
 # Oddam-W-Dobre-Rece
 A place where everyone can share their goods with trusted institutions
  
  
  ## Table of contents
-* [Introduction](#Introduction)
+* [Introduction](#introduction)
 * [Technologies Used](#technologies-used)
-* [Features](#Features)
+* [Features](#features)
 * [Setup](#setup)
 
 ## Introduction
@@ -23,6 +25,8 @@ will actually go to those in need
 ![](demo/homepage.gif)
 ![](demo/profile-settings.gif)
 ![](demo/donation.gif)
+
+
 ## Technologies Used
 * Python 3.8
 * JavaScript
@@ -30,6 +34,9 @@ will actually go to those in need
 * PostgreSQL 2.9.2
 * HTML
 * CSS
+* AWS RDS
+* AWS S3
+* Heroku
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Features
@@ -60,7 +67,7 @@ A few of the things you can do with Oddam w Dobre Rece:
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Setup
-- _To run this project, you need to create and active virtual environment_
+- _To run this project, you need to install [Django](https://docs.djangoproject.com/en/4.0/intro/) then create and active virtual environment_
 ```
 $ python3 -m venv env
 ```
@@ -79,7 +86,7 @@ $ pip install requirements.txt
    ```py
    SECRET_KEY = 'ENTER YOUR API'
    ```
-3. Run the project in cmd
+3. Run the project in project terminal
    ```
    python3 manage.py runserver
    ```
@@ -91,6 +98,6 @@ $ pip install requirements.txt
 
 Email -  d.pacek1@gmail.com
 
-Project Link: [https://oddamwdobrereceapp.herokuapp.com/](https://oddamwdobrereceapp.herokuapp.com/)
+Live Project Link: https://oddamwdobrereceapp.herokuapp.com/
 
 <p align="right">(<a href="#top">back to top</a>)</p>
