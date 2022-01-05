@@ -16,7 +16,7 @@ class LandingPageView(View):
     Handles the data from the contact form.
     """
     footer_form = FooterForm
-    template_class = 'mainapp/main.html'
+    template_class = 'main.html'
     context = {}
 
     def get(self, request, *args, **kwargs):
