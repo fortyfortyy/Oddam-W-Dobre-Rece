@@ -53,7 +53,7 @@ class LandingPageView(View):
                 subject,
                 message,
                 settings.EMAIL_HOST_USER,
-                ['fzj21628@boofx.com'],
+                ['oddamwdobrereceapp@gmail.com'],
             )
             mail.send()
             messages.success(request, "Formularz kontaktowy został przesłany. Prosimy czekać na odpowiedź.")
