@@ -91,6 +91,6 @@ $ pip install requirements.txt
 
 Email -  d.pacek1@gmail.com
 
-Project Link: [https://github.com/fortyfortyy/Oddam-W-Dobre-Rece](https://github.com/fortyfortyy/Oddam-W-Dobre-Rece)
+Project Link: [https://oddamwdobrereceapp.herokuapp.com/](https://oddamwdobrereceapp.herokuapp.com/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
